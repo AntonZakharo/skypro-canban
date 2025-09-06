@@ -16,7 +16,7 @@ coverage
 
 /cypress/videos/
 /cypress/screenshots/
-
+skypro_04 2
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
