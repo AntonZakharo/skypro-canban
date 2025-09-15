@@ -413,6 +413,14 @@ body {
   float: right;
 }
 
+.loading {
+  font-size: 45px;
+  height: 95vh;
+  color: rgb(148, 166, 190);
+  padding-top: 120px;
+  text-align: center;
+}
+
 .subttl {
   color: #000;
   font-size: 14px;
