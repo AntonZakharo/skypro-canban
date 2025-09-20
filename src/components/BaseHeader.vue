@@ -12,8 +12,8 @@
           <button class="header__btn-main-new _hover01" id="btnMainNew">
             <a href="#popNewCard">Создать новую задачу</a>
           </button>
-          <a href="#user-set-target" class="header__user _hover02">Ivan Ivanov</a>
-          <div class="header__pop-user-set pop-user-set" id="user-set-target">
+          <a class="header__user _hover02">Ivan Ivanov</a>
+          <div v-if="isDisplayed" class="header__pop-user-set pop-user-set" id="user-set-target">
             <!-- <a href="">x</a> -->
             <p class="pop-user-set__name">Ivan Ivanov</p>
             <p class="pop-user-set__mail">ivan.ivanov@gmail.com</p>
@@ -29,6 +29,16 @@
   </header>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted, ref } from 'vue'
+const isDisplayed = ref(false)
+
+onMounted(() => {
+  const username = document.querySelector('._hover02')
+  username.addEventListener('click', () => {
+    isDisplayed.value = isDisplayed.value ? false : true
+  })
+})
+</script>
 
 <style lang="scss" scoped></style>

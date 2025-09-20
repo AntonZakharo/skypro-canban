@@ -94,8 +94,6 @@ body {
 ._hover03:hover a {
   color: #ffffff;
 }
-
-.pop-user-set:target,
 .pop-exit:target,
 .pop-new-card:target,
 .pop-browse:target {
@@ -808,7 +806,7 @@ body {
   padding: 0;
 }
 .header__pop-user-set {
-  display: none;
+  display: block;
   position: absolute;
   top: 61px;
   right: 0;
