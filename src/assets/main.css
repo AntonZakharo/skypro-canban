@@ -94,8 +94,6 @@ body {
 ._hover03:hover a {
   color: #ffffff;
 }
-
-.pop-user-set:target,
 .pop-exit:target,
 .pop-new-card:target,
 .pop-browse:target {
@@ -411,6 +409,14 @@ body {
   line-height: 1;
   color: #ffffff;
   float: right;
+}
+
+.loading {
+  font-size: 45px;
+  height: 95vh;
+  color: rgb(148, 166, 190);
+  padding-top: 120px;
+  text-align: center;
 }
 
 .subttl {
@@ -800,7 +806,7 @@ body {
   padding: 0;
 }
 .header__pop-user-set {
-  display: none;
+  display: block;
   position: absolute;
   top: 61px;
   right: 0;
