@@ -6,7 +6,6 @@ export const testTasks = [
     date: '30.10.23',
     status: 'Без статуса',
   },
-
   {
     id: 2,
     topic: 'Research',

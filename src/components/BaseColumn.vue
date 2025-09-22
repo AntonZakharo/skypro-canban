@@ -20,6 +20,7 @@ const parag = ref(null)
 onMounted(() => {
   for (let i = 0; i < testTasks.length; i++) {
     const status = parag.value.innerHTML
+
     if (testTasks[i].status === status) {
       const cards = document.querySelectorAll('.cards')[columns.indexOf(status)]
 
@@ -37,3 +38,29 @@ onMounted(() => {
   }
 })
 </script>
+
+<style scoped>
+.main__column {
+  width: 20%;
+  margin: 0 auto;
+  display: block;
+}
+
+.column__title {
+  padding: 0 10px;
+  margin: 15px 0;
+}
+.column__title p {
+  color: #94a6be;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.cards {
+  width: 100%;
+  display: block;
+  position: relative;
+}
+</style>
