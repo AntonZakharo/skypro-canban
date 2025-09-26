@@ -166,6 +166,33 @@
 </template>
 
 <style scoped>
+.categories {
+  margin-bottom: 20px;
+}
+.categories__themes {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.categories__p {
+  margin-bottom: 14px;
+}
+.categories__theme {
+  display: inline-block;
+  width: auto;
+  height: 30px;
+  padding: 8px 20px;
+  border-radius: 24px;
+  margin-right: 7px;
+  opacity: 0.4;
+}
+.categories__theme p {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 14px;
+  white-space: nowrap;
+}
 ._hover01:hover {
   background-color: #33399b;
 }
@@ -280,9 +307,6 @@
 }
 .calendar__period {
   padding: 0 7px;
-}
-.pop-new-card__calendar {
-  width: 100%;
 }
 .subttl {
   color: #000;
