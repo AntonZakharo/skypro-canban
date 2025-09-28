@@ -10,6 +10,7 @@
         :topic="task.topic"
         :title="task.title"
         :date="task.date"
+        :color="task.color"
       />
     </div>
   </div>
