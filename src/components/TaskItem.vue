@@ -5,13 +5,13 @@
         <div class="card__theme _orange">
           <p class="_orange">{{ topic }}</p>
         </div>
-        <a href="#popBrowse" target="_self">
+        <RouterLink :to="`/task/${id}`">
           <div class="card__btn">
             <div></div>
             <div></div>
             <div></div>
           </div>
-        </a>
+        </RouterLink>
       </div>
       <div class="card__content">
         <a href="" target="_blank">
@@ -53,9 +53,12 @@
   </div>
 </template>
 <script setup>
+import { testTasks } from '@/mocks/tasks'
 import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 defineProps({
+  id: Number,
   topic: String,
   title: String,
   date: String,
@@ -74,6 +77,7 @@ onMounted(() => {
     }
   })
 })
+
 </script>
 
 <style scoped>

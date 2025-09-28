@@ -3,14 +3,14 @@
     <div class="container">
       <div class="header__block">
         <div class="header__logo _show _light">
-          <a href="" target="_self"><img src="@/assets/images/logo.png" alt="logo" /></a>
+          <RouterLink to="/"><img src="@/assets/images/logo.png" alt="logo" /></RouterLink>
         </div>
         <div class="header__logo _dark">
           <a href="" target="_self"><img src="@/assets/images/logo_dark.png" alt="logo" /></a>
         </div>
         <nav class="header__nav">
           <button class="header__btn-main-new _hover01" id="btnMainNew">
-            <a href="#popNewCard">Создать новую задачу</a>
+            <RouterLink to="/task/add">Создать новую задачу</RouterLink>
           </button>
           <a class="header__user _hover02">Ivan Ivanov</a>
           <div v-if="isDisplayed" class="header__pop-user-set pop-user-set" id="user-set-target">
@@ -20,7 +20,9 @@
               <p>Темная тема</p>
               <input type="checkbox" class="checkbox" name="checkbox" />
             </div>
-            <button type="button" class="_hover03"><a href="#popExit">Выйти</a></button>
+            <button type="button" class="_hover03">
+              <RouterLink to="/exit">Выйти</RouterLink>
+            </button>
           </div>
         </nav>
       </div>

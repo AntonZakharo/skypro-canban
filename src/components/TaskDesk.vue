@@ -29,15 +29,10 @@ const isEmpty = ref(false)
 onMounted(() => {
   setTimeout(() => {
     loading.value = true
-  }, 3000)
-
-  if (testTasks.length == 0) {
-    setTimeout(() => {
+    if (testTasks.length == 0) {
       isEmpty.value = true
-    }, 3000)
-  }
-  console.log(isEmpty)
-  console.log(testTasks)
+    }
+  }, 1000)
 })
 </script>
 
@@ -54,7 +49,7 @@ onMounted(() => {
 .empty-cards__text {
   font-size: 35px;
   text-align: center;
-  background: white;
+  background-color: #ffffff;
   border-radius: 40px;
   border: black solid 2px;
   display: inline;

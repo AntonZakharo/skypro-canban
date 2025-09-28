@@ -5,11 +5,12 @@
     </div>
     <div class="cards">
       <TaskItem
-        v-for="(task, index) in testTasks.filter((t) => t.status === status)"
-        :key="index"
+        v-for="task in testTasks.filter((t) => t.status === status)"
+        :key="task.id"
         :topic="task.topic"
         :title="task.title"
         :date="task.date"
+        :id="task.id"
       />
     </div>
   </div>

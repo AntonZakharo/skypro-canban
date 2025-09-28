@@ -11,7 +11,7 @@
               <a href="modal/signin.html">Да, выйти</a>
             </button>
             <button class="pop-exit__exit-no _hover03" id="exitNo">
-              <a href="main.html">Нет, остаться</a>
+              <RouterLink to="/">Нет, остаться</RouterLink>
             </button>
           </div>
         </form>
@@ -20,7 +20,6 @@
   </div>
 </template>
 <style scoped>
-
 ._hover01:hover {
   background-color: #33399b;
 }
@@ -31,11 +30,8 @@
 ._hover03:hover a {
   color: #ffffff;
 }
-.pop-exit:target {
-  display: block;
-}
 .pop-exit {
-  display: none;
+  display: block;
   width: 100%;
   height: 100%;
   min-width: 320px;

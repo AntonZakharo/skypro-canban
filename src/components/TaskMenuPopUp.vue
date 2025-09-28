@@ -15,7 +15,7 @@
               <div class="status__theme _hide">
                 <p>Без статуса</p>
               </div>
-              <div class="status__theme _gray">
+              <div class="status__theme _hide">
                 <p class="_gray">Нужно сделать</p>
               </div>
               <div class="status__theme _hide">
@@ -147,7 +147,9 @@
                 <a href="#">Удалить задачу</a>
               </button>
             </div>
-            <button class="btn-browse__close _btn-bg _hover01"><a href="#">Закрыть</a></button>
+            <button class="btn-browse__close _btn-bg _hover01">
+              <RouterLink to="/">Закрыть</RouterLink>
+            </button>
           </div>
           <div class="pop-browse__btn-edit _hide">
             <div class="btn-group">
@@ -157,14 +159,36 @@
                 <a href="#">Удалить задачу</a>
               </button>
             </div>
-            <button class="btn-edit__close _btn-bg _hover01"><a href="#">Закрыть</a></button>
+            <button class="btn-edit__close _btn-bg _hover01">
+              <RouterLink to="/">Закрыть</RouterLink>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+<script setup>
+import { testTasks } from '@/mocks/tasks'
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
+const route = useRouter()
+const task = computed(() => {
+  console.log(route.params.id)
+  return testTasks.find((t) => t.id === route.params.id) || { name: '', translation: '' }
+})
+console.log(route.params.id)
+console.log(task)
+const statusThemes = document.querySelectorAll('.status__theme')
+statusThemes.forEach((theme) => {
+  console.log(task.value.status, theme)
+  if (task.value.status == theme) {
+    theme.classList.remove('_hide')
+    theme.classList.add('_gray')
+  }
+})
+</script>
 <style scoped>
 .categories {
   margin-bottom: 20px;
@@ -335,11 +359,8 @@
   background-color: #e9d4ff;
   color: #9a48f1;
 }
-.pop-browse:target {
-  display: block;
-}
 .pop-browse {
-  display: none;
+  display: block;
   width: 100%;
   height: 100%;
   min-width: 375px;
