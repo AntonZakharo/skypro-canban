@@ -25,6 +25,9 @@ const router = createRouter({
           component: () => import('@/views/ViewTaskView.vue'),
         },
       ],
+      meta: {
+        requiresAuth: true, // Главная страница требует авторизации
+      },
     },
     {
       path: '/sign-in',

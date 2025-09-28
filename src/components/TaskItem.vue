@@ -2,8 +2,8 @@
   <div class="cards__item">
     <div class="cards__card card">
       <div class="card__group">
-        <div class="card__theme _orange">
-          <p class="_orange">{{ topic }}</p>
+        <div :class="`card__theme _${color}`">
+          <p :class="`_${color}`">{{ topic }}</p>
         </div>
         <RouterLink :to="`/task/${id}`">
           <div class="card__btn">
@@ -53,31 +53,13 @@
   </div>
 </template>
 <script setup>
-import { testTasks } from '@/mocks/tasks'
-import { onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-
 defineProps({
   id: Number,
   topic: String,
   title: String,
   date: String,
+  color: String,
 })
-
-onMounted(() => {
-  const cardThemes = document.querySelectorAll('.card__theme')
-  cardThemes.forEach((cardTheme) => {
-    const parag = cardTheme.querySelector('p')
-    if (parag.innerHTML == 'Research') {
-      parag.classList.add('_green')
-      cardTheme.classList.add('_green')
-    } else if (parag.innerHTML == 'Copywriting') {
-      parag.classList.add('_purple')
-      cardTheme.classList.add('_purple')
-    }
-  })
-})
-
 </script>
 
 <style scoped>

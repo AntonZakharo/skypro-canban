@@ -11,23 +11,7 @@
           </div>
           <div class="pop-browse__status status">
             <p class="status__p subttl">Статус</p>
-            <div class="status__themes">
-              <div class="status__theme _hide">
-                <p>Без статуса</p>
-              </div>
-              <div class="status__theme _hide">
-                <p class="_gray">Нужно сделать</p>
-              </div>
-              <div class="status__theme _hide">
-                <p>В работе</p>
-              </div>
-              <div class="status__theme _hide">
-                <p>Тестирование</p>
-              </div>
-              <div class="status__theme _hide">
-                <p>Готово</p>
-              </div>
-            </div>
+            <div class="status__theme _gray">{{ task.status }}</div>
           </div>
           <div class="pop-browse__wrap">
             <form class="pop-browse__form form-browse" id="formBrowseCard" action="#">
@@ -171,22 +155,11 @@
 <script setup>
 import { testTasks } from '@/mocks/tasks'
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
-const route = useRouter()
+const route = useRoute()
 const task = computed(() => {
-  console.log(route.params.id)
-  return testTasks.find((t) => t.id === route.params.id) || { name: '', translation: '' }
-})
-console.log(route.params.id)
-console.log(task)
-const statusThemes = document.querySelectorAll('.status__theme')
-statusThemes.forEach((theme) => {
-  console.log(task.value.status, theme)
-  if (task.value.status == theme) {
-    theme.classList.remove('_hide')
-    theme.classList.add('_gray')
-  }
+  return testTasks.find((t) => t.id == route.params.id) || { name: '', translation: '' }
 })
 </script>
 <style scoped>
@@ -495,10 +468,13 @@ statusThemes.forEach((theme) => {
 .status__theme {
   border-radius: 24px;
   border: 0.7px solid rgba(148, 166, 190, 0.4);
-  color: #94a6be;
-  padding: 11px 14px 10px;
+  font-size: 14px;
+  line-height: 10px;
+  color: white;
+  padding: 10px 17.5px;
   margin-right: 7px;
   margin-bottom: 7px;
+  display: inline-block;
 }
 .status__theme p {
   font-size: 14px;
