@@ -1,31 +1,37 @@
-<script setup>
-import BaseHeader from '@/components/BaseHeader.vue'
-import LogoutPopUp from '@/components/LogoutPopUp.vue'
-import NewTaskPopUp from '@/components/NewTaskPopUp.vue'
-import TaskDesk from '@/components/TaskDesk.vue'
-import TaskMenuPopUp from '@/components/TaskMenuPopUp.vue'
-</script>
-
 <template>
   <div class="wrapper">
-    <!-- pop-up start-->
-
-    <LogoutPopUp />
-
-    <NewTaskPopUp />
-
-    <TaskMenuPopUp />
-
-    <!-- pop-up end-->
-
     <BaseHeader></BaseHeader>
     <main class="main">
       <div class="container">
         <TaskDesk></TaskDesk>
       </div>
     </main>
+    <RouterView />
   </div>
 </template>
+<script setup>
+import BaseHeader from '@/components/BaseHeader.vue'
+import TaskDesk from '@/components/TaskDesk.vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const token = localStorage.getItem('userInfo')
+console.log(token)
+if (!token) {
+  router.push('/sign-in')
+}
+router.beforeEach((to, from, next) => {
+  // Берем токен
+  const token = localStorage.getItem('userInfo')
+
+  // Проверяем, действительно ли на маршруте нужна авторизация и есть ли токен
+  if (to.meta.requiresAuth && !token) {
+    next('/sign-in') // Если нет, уводим на страницу входа
+    console.log('dssdds')
+  } else {
+    next() // Иначе пропускаем пользователя
+  }
+})
+</script>
 
 <style scoped>
 .main {

@@ -5,13 +5,13 @@
         <div :class="`card__theme _${color}`">
           <p :class="`_${color}`">{{ topic }}</p>
         </div>
-        <a href="#popBrowse" target="_self">
+        <RouterLink :to="`/task/${id}`">
           <div class="card__btn">
             <div></div>
             <div></div>
             <div></div>
           </div>
-        </a>
+        </RouterLink>
       </div>
       <div class="card__content">
         <a href="" target="_blank">
@@ -54,6 +54,7 @@
 </template>
 <script setup>
 defineProps({
+  id: Number,
   topic: String,
   title: String,
   date: String,
