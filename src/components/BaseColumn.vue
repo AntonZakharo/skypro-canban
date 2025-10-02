@@ -11,6 +11,7 @@
         :title="task.title"
         :date="task.date"
         :color="task.color"
+        :id="task.id"
       />
     </div>
   </div>
