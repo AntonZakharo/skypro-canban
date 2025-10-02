@@ -5,14 +5,14 @@ export const testTasks = [
     title: 'Название задачи',
     date: '30.10.23',
     status: 'Без статуса',
+    color: 'orange',
   },
-
   {
     id: 2,
     topic: 'Research',
     title: 'Название задачи',
     date: '30.10.23',
-    status: 'Без статуса',
+    status: 'green',
   },
   {
     id: 3,
@@ -20,6 +20,7 @@ export const testTasks = [
     title: 'Название задачи',
     date: '30.10.23',
     status: 'Без статуса',
+    color: 'orange',
   },
   {
     id: 4,
@@ -27,6 +28,7 @@ export const testTasks = [
     title: 'Название задачи',
     date: '30.10.23',
     status: 'Без статуса',
+    color: 'purple',
   },
   {
     id: 5,
@@ -34,6 +36,7 @@ export const testTasks = [
     title: 'Название задачи',
     date: '30.10.23',
     status: 'Без статуса',
+    color: 'green',
   },
   {
     id: 6,
@@ -41,6 +44,7 @@ export const testTasks = [
     title: 'Название задачи',
     date: '30.10.23',
     status: 'Нужно сделать',
+    color: 'green',
   },
   {
     id: 7,
@@ -48,6 +52,7 @@ export const testTasks = [
     title: 'Название задачи',
     date: '30.10.23',
     status: 'В работе',
+    color: 'green',
   },
   {
     id: 8,
@@ -55,6 +60,7 @@ export const testTasks = [
     title: 'Название задачи',
     date: '30.10.23',
     status: 'В работе',
+    color: 'purple',
   },
   {
     id: 9,
@@ -62,6 +68,7 @@ export const testTasks = [
     title: 'Название задачи',
     date: '30.10.23',
     status: 'В работе',
+    color: 'orange',
   },
   {
     id: 10,
@@ -69,6 +76,7 @@ export const testTasks = [
     title: 'Название задачи',
     date: '30.10.23',
     status: 'Тестирование',
+    color: 'green',
   },
   {
     id: 11,
@@ -76,6 +84,7 @@ export const testTasks = [
     title: 'Название задачи',
     date: '30.10.23',
     status: 'Готово',
+    color: 'green',
   },
 ]
 

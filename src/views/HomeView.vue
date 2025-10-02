@@ -3,7 +3,7 @@ import BaseHeader from '@/components/BaseHeader.vue'
 import LogoutPopUp from '@/components/LogoutPopUp.vue'
 import NewTaskPopUp from '@/components/NewTaskPopUp.vue'
 import TaskDesk from '@/components/TaskDesk.vue'
-import TaskMenu from '@/components/TaskMenu.vue'
+import TaskMenuPopUp from '@/components/TaskMenuPopUp.vue'
 </script>
 
 <template>
@@ -14,7 +14,7 @@ import TaskMenu from '@/components/TaskMenu.vue'
 
     <NewTaskPopUp />
 
-    <TaskMenu />
+    <TaskMenuPopUp />
 
     <!-- pop-up end-->
 
@@ -26,3 +26,23 @@ import TaskMenu from '@/components/TaskMenu.vue'
     </main>
   </div>
 </template>
+
+<style scoped>
+.main {
+  width: 100%;
+  background-color: #eaeef6;
+}
+.wrapper {
+  max-width: 100%;
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+.container {
+  max-width: 1260px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+</style>
