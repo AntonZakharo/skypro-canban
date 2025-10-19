@@ -1,45 +1,43 @@
 <template>
-  <div v-if="loading" class="main__block">
+  <div class="loading-container" v-if="loading">
+    <p class="loading__text">Данные загружаются</p>
+    <BaseLoader></BaseLoader>
+  </div>
+  <div v-else class="main__block">
     <div class="main__content">
-      <BaseColumn status="Без статуса" />
-      <BaseColumn status="Нужно сделать" />
-      <BaseColumn status="В работе" />
-      <BaseColumn status="Тестирование" />
-      <BaseColumn status="Готово" />
+      <BaseColumn :tasks="tasks" status="Без статуса" />
+      <BaseColumn :tasks="tasks" status="Нужно сделать" />
+      <BaseColumn :tasks="tasks" status="В работе" />
+      <BaseColumn :tasks="tasks" status="Тестирование" />
+      <BaseColumn :tasks="tasks" status="Готово" />
     </div>
   </div>
-  <div class="loading-container" v-else>
-    <p class="loading__text">Данные загружаются</p>
-    <Loader></Loader>
-  </div>
+
   <div v-if="isEmpty" class="empty-cards">
     <div class="empty-cards__text">Карточек нет</div>
   </div>
 </template>
 
 <script setup>
-import Loader from './BaseLoader.vue'
+import BaseLoader from './BaseLoader.vue'
 import { onMounted, ref } from 'vue'
 import BaseColumn from './BaseColumn.vue'
-import { testTasks } from '@/mocks/tasks'
 
-const loading = ref(false)
-const isEmpty = ref(false)
+const props = defineProps({
+  tasks: Array,
+  loading: Boolean,
+  error: Error,
+})
+const isEmpty = ref(true)
 
 onMounted(() => {
-  setTimeout(() => {
-    loading.value = true
-    if (testTasks.length == 0) {
-      isEmpty.value = true
-    }
-  }, 1000)
+  if (props.tasks.length == 0) {
+    isEmpty.value = false
+  }
 })
 </script>
 
 <style scoped>
-.loading-container {
-  height: 90vh;
-}
 .empty-cards {
   height: 80vh;
   display: flex;
