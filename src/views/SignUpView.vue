@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import RegisterForm from '@/components/RegisterForm.vue'
 </script>
 

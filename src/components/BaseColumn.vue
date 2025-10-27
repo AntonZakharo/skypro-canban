@@ -17,10 +17,13 @@
 </template>
 
 <script setup>
+import { inject } from 'vue'
 import TaskItem from './TaskItem.vue'
+
+const { tasks } = inject('tasksData')
+
 defineProps({
   status: String,
-  tasks: Array,
 })
 </script>
 
