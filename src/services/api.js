@@ -20,13 +20,12 @@ export const getTasks = async (tasks, loading, error) => {
   try {
     loading.value = true
     const data = await fetchWords({
-      token: 'Bearer ' + localStorage.getItem('token'),
+      token: 'Bearer ' + JSON.parse(localStorage.getItem('userInfo')).token,
     })
 
     if (data) tasks.value = data.tasks
   } catch (err) {
     error.value = err
-    console.log(err)
   }
 }
 export async function postTask({ task }) {

@@ -12,8 +12,8 @@
 <script setup>
 import { inject } from 'vue'
 
-const { error } = inject('tasksData')
-console.log(error.value)
+let { error } = inject('tasksData')
+error = String(error.value).slice(7)
 </script>
 <style lang="scss" scoped>
 .overlay {
@@ -55,6 +55,7 @@ console.log(error.value)
   }
   &__text {
     color: #cc2626;
+    text-align: center;
   }
   &__link {
     position: absolute;
