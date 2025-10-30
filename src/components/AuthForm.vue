@@ -57,7 +57,7 @@ async function handleSignIn(e) {
     setUserInfo(data)
     router.push('/') // Перенаправляем на главную страницу
   } catch (error) {
-    errorMessage.value = error
+    errorMessage.value = String(error).slice(7)
     isError.value = true
   }
 }
@@ -66,6 +66,7 @@ async function handleSignIn(e) {
 .error {
   color: red;
   margin-top: 10px;
+  text-align: center;
 }
 * {
   margin: 0;

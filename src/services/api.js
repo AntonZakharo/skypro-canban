@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 const API_URL = 'https://wedev-api.sky.pro/api/kanban/'
 // Эта переменная содержит базовый URL для запросов к нашему серверу
 async function fetchWords({ token }) {
@@ -16,9 +15,8 @@ async function fetchWords({ token }) {
     throw new Error(error.message)
   }
 }
-export const getTasks = async (tasks, loading, error) => {
+export const getTasks = async (tasks, error) => {
   try {
-    loading.value = true
     const data = await fetchWords({
       token: 'Bearer ' + JSON.parse(localStorage.getItem('userInfo')).token,
     })
@@ -28,11 +26,11 @@ export const getTasks = async (tasks, loading, error) => {
     error.value = err
   }
 }
-export async function postTask({ task }) {
+export async function postTask(task) {
   try {
     const data = await axios.post(API_URL, task, {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token'),
+        Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('userInfo')).token,
         'Content-Type': '',
       },
     })
@@ -46,7 +44,7 @@ export async function editTask({ id, task }) {
   try {
     const data = await axios.put(API_URL + id, task, {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token'),
+        Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('userInfo')).token,
         'Content-Type': '',
       },
     })
@@ -56,11 +54,11 @@ export async function editTask({ id, task }) {
   }
 }
 
-export async function deleteTask({ id, task }) {
+export async function deleteTask(id) {
   try {
-    const data = await axios.delete(API_URL + id, task, {
+    const data = await axios.delete(API_URL + id, {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token'),
+        Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('userInfo')).token,
         'Content-Type': '',
       },
     })

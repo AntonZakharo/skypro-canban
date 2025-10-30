@@ -12,10 +12,10 @@
           <button class="header__btn-main-new _hover01" id="btnMainNew">
             <RouterLink to="/task/add">Создать новую задачу</RouterLink>
           </button>
-          <a class="header__user _hover02">Ivan Ivanov</a>
+          <a class="header__user _hover02">{{ userInfo.name }}</a>
           <div v-if="isDisplayed" class="header__pop-user-set pop-user-set" id="user-set-target">
-            <p class="pop-user-set__name">Ivan Ivanov</p>
-            <p class="pop-user-set__mail">ivan.ivanov@gmail.com</p>
+            <p class="pop-user-set__name">{{ userInfo.name }}</p>
+            <p class="pop-user-set__mail">{{ userInfo.login }}</p>
             <div class="pop-user-set__theme">
               <p>Темная тема</p>
               <input type="checkbox" class="checkbox" name="checkbox" />
@@ -33,6 +33,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 const isDisplayed = ref(false)
+const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 
 onMounted(() => {
   const username = document.querySelector('._hover02')

@@ -26,3 +26,4 @@ function removeUserInfo() {
 }
 provide('auth', { userInfo, setUserInfo, removeUserInfo })
 </script>
+
