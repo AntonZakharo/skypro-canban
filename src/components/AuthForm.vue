@@ -40,18 +40,21 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
 import { signIn } from '@/services/auth'
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
+
 const email = ref('')
 const password = ref('')
 const router = useRouter()
 const errorMessage = ref()
 const isError = ref(false)
+
+const { setUserInfo } = inject('auth')
+
 async function handleSignIn(e) {
   e.preventDefault() // Предотвращаем перезагрузку страницы
   try {
     const data = await signIn({ login: email.value, password: password.value })
-    localStorage.setItem('userInfo', 'true') // Сохраняем флаг авторизации
-    localStorage.setItem('token', data.token)
+    setUserInfo(data)
     router.push('/') // Перенаправляем на главную страницу
   } catch (error) {
     errorMessage.value = error

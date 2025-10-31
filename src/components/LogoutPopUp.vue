@@ -20,13 +20,16 @@
   </div>
 </template>
 <script setup>
+import { inject } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+const { removeUserInfo } = inject('auth')
+
 function logout(e) {
   e.preventDefault() // Блокируем стандартное действие ссылки
-  localStorage.removeItem('userInfo') // Удаляем информацию о пользователе
+  removeUserInfo()
   router.push('/sign-in') // Отправляем на экран входа
 }
 </script>

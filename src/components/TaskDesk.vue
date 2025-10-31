@@ -3,37 +3,35 @@
     <p class="loading__text">Данные загружаются</p>
     <BaseLoader></BaseLoader>
   </div>
-  <div v-else class="main__block">
-    <div class="main__content">
-      <BaseColumn :tasks="tasks" status="Без статуса" />
-      <BaseColumn :tasks="tasks" status="Нужно сделать" />
-      <BaseColumn :tasks="tasks" status="В работе" />
-      <BaseColumn :tasks="tasks" status="Тестирование" />
-      <BaseColumn :tasks="tasks" status="Готово" />
+  <div v-else>
+    <div class="main__block">
+      <div class="main__content">
+        <BaseColumn status="Без статуса" />
+        <BaseColumn status="Нужно сделать" />
+        <BaseColumn status="В работе" />
+        <BaseColumn status="Тестирование" />
+        <BaseColumn status="Готово" />
+      </div>
     </div>
-  </div>
-
-  <div v-if="isEmpty" class="empty-cards">
-    <div class="empty-cards__text">Карточек нет</div>
+    <div v-if="isEmpty" class="empty-cards">
+      <div class="empty-cards__text">Карточек нет</div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import BaseLoader from './BaseLoader.vue'
-import { onMounted, ref } from 'vue'
+import { computed, inject } from 'vue'
 import BaseColumn from './BaseColumn.vue'
-
-const props = defineProps({
-  tasks: Array,
+defineProps({
   loading: Boolean,
   error: Error,
 })
-const isEmpty = ref(true)
 
-onMounted(() => {
-  if (props.tasks.length == 0) {
-    isEmpty.value = false
-  }
+const { tasks } = inject('tasksData')
+
+const isEmpty = computed(() => {
+  return tasks.value.length == 0 ? true : false
 })
 </script>
 
@@ -49,7 +47,7 @@ onMounted(() => {
   text-align: center;
   background-color: #ffffff;
   border-radius: 40px;
-  border: black solid 2px;
+  border: 0.7px solid black;
   display: inline;
   padding: 5px 80px;
   margin-top: 60px;

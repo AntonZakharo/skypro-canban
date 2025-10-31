@@ -46,7 +46,7 @@
 </template>
 <script setup>
 import { signUp } from '@/services/auth'
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
 const login = ref('')
@@ -56,13 +56,14 @@ const router = useRouter()
 const errorMessage = ref()
 const isError = ref(false)
 
+const { setUserInfo } = inject('auth')
+
 async function handleSignUp(e) {
   e.preventDefault()
 
   try {
     const data = await signUp({ name: login.value, login: email.value, password: password.value })
-    localStorage.setItem('userInfo', 'true')
-    localStorage.setItem('token', data.token)
+    setUserInfo(data)
     router.push('/') //
   } catch {
     if (login.value == '' || email.value == '' || password.value == '') {

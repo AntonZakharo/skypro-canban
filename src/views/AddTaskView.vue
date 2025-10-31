@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import NewTaskPopUp from '@/components/AddTaskPopUp.vue'
 </script>
 

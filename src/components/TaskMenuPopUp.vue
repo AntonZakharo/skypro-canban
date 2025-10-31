@@ -2,11 +2,7 @@
   <div class="pop-browse" id="popBrowse">
     <div class="pop-browse__container">
       <div class="pop-browse__block">
-        <div class="loading-container" v-if="loading">
-          <p class="loading__text">Данные загружаются</p>
-          <BaseLoader></BaseLoader>
-        </div>
-        <div v-else class="pop-browse__content">
+        <div class="pop-browse__content">
           <div class="pop-browse__top-block">
             <h3 class="pop-browse__ttl">{{ task.title }}</h3>
             <div :class="`categories__theme theme-top _${color[task.topic]} _active-category`">
@@ -158,15 +154,10 @@
   </div>
 </template>
 <script setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { useRoute } from 'vue-router'
-import { getTasks } from '@/services/api'
-import { onMounted, ref } from 'vue'
-import BaseLoader from './BaseLoader.vue'
 
-const tasks = ref([])
-const loading = ref(true)
-const error = ref()
+const { tasks } = inject('tasksData')
 const route = useRoute()
 
 const task = computed(() => {
@@ -185,11 +176,6 @@ const color = computed(() => ({
   'Web Design': 'orange',
   Copywriting: 'purple',
 }))
-
-onMounted(async () => {
-  await getTasks(tasks, loading, error)
-  loading.value = false
-})
 </script>
 <style scoped>
 .loading-container {

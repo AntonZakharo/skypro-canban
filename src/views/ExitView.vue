@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import LogoutPopUp from '@/components/LogoutPopUp.vue'
 </script>
 
