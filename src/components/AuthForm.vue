@@ -61,6 +61,11 @@ const { setUserInfo } = inject('auth')
 async function handleSignIn(e) {
   e.preventDefault() // Предотвращаем перезагрузку страницы
   try {
+    if (email.value == '' || password.value == '') {
+      errorMessage.value = 'Поля не заполнены'
+      isError.value = true
+      return
+    }
     const data = await signIn({ login: email.value, password: password.value })
     setUserInfo(data)
     router.push('/') // Перенаправляем на главную страницу
