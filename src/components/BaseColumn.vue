@@ -5,13 +5,12 @@
     </div>
     <div class="cards">
       <TaskItem
-        v-for="task in testTasks.filter((t) => t.status === status)"
-        :key="task.id"
+        v-for="task in tasks.filter((t) => t.status === status)"
+        :key="task._id"
         :topic="task.topic"
         :title="task.title"
         :date="task.date"
-        :color="task.color"
-        :id="task.id"
+        :id="task._id"
       />
     </div>
   </div>
@@ -19,9 +18,9 @@
 
 <script setup>
 import TaskItem from './TaskItem.vue'
-import { testTasks } from '@/mocks/tasks'
 defineProps({
   status: String,
+  tasks: Array,
 })
 </script>
 

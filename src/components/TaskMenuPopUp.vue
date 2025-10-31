@@ -2,11 +2,15 @@
   <div class="pop-browse" id="popBrowse">
     <div class="pop-browse__container">
       <div class="pop-browse__block">
-        <div class="pop-browse__content">
+        <div class="loading-container" v-if="loading">
+          <p class="loading__text">Данные загружаются</p>
+          <BaseLoader></BaseLoader>
+        </div>
+        <div v-else class="pop-browse__content">
           <div class="pop-browse__top-block">
-            <h3 class="pop-browse__ttl">Название задачи</h3>
-            <div class="categories__theme theme-top _orange _active-category">
-              <p class="_orange">Web Design</p>
+            <h3 class="pop-browse__ttl">{{ task.title }}</h3>
+            <div :class="`categories__theme theme-top _${color[task.topic]} _active-category`">
+              <p :class="`_${color[task.topic]}`">{{ task.topic }}</p>
             </div>
           </div>
           <div class="pop-browse__status status">
@@ -23,6 +27,7 @@
                   id="textArea01"
                   readonly
                   placeholder="Введите описание задачи..."
+                  value="{{ task.description }}"
                 ></textarea>
               </div>
             </form>
@@ -153,16 +158,43 @@
   </div>
 </template>
 <script setup>
-import { testTasks } from '@/mocks/tasks'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { getTasks } from '@/services/api'
+import { onMounted, ref } from 'vue'
+import BaseLoader from './BaseLoader.vue'
 
+const tasks = ref([])
+const loading = ref(true)
+const error = ref()
 const route = useRoute()
+
 const task = computed(() => {
-  return testTasks.find((t) => t.id == route.params.id) || { name: '', translation: '' }
+  return (
+    tasks.value.find((t) => t._id == route.params.id) || {
+      status: 'undefined',
+      title: 'undefined',
+      topic: 'undefined',
+      description: 'undefined',
+    }
+  )
+})
+
+const color = computed(() => ({
+  Research: 'green',
+  'Web Design': 'orange',
+  Copywriting: 'purple',
+}))
+
+onMounted(async () => {
+  await getTasks(tasks, loading, error)
+  loading.value = false
 })
 </script>
 <style scoped>
+.loading-container {
+  height: 10vh;
+}
 .categories {
   margin-bottom: 20px;
 }

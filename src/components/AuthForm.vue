@@ -10,9 +10,10 @@
             <input
               class="modal__input"
               type="text"
-              name="login"
-              id="formlogin"
+              name="email"
+              id="formemail"
               placeholder="Эл. почта"
+              v-model="email"
             />
             <input
               class="modal__input"
@@ -20,7 +21,9 @@
               name="password"
               id="formpassword"
               placeholder="Пароль"
+              v-model="password"
             />
+            <div v-if="isError" class="error">{{ errorMessage }}</div>
             <button @click="handleSignIn" class="modal__btn-enter _hover01" id="btnEnter">
               Войти
             </button>
@@ -36,14 +39,31 @@
 </template>
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
+import { signIn } from '@/services/auth'
+import { ref } from 'vue'
+const email = ref('')
+const password = ref('')
 const router = useRouter()
+const errorMessage = ref()
+const isError = ref(false)
 async function handleSignIn(e) {
   e.preventDefault() // Предотвращаем перезагрузку страницы
-  localStorage.setItem('userInfo', 'true') // Сохраняем флаг авторизации
-  router.push('/') // Перенаправляем на главную страницу
+  try {
+    const data = await signIn({ login: email.value, password: password.value })
+    localStorage.setItem('userInfo', 'true') // Сохраняем флаг авторизации
+    localStorage.setItem('token', data.token)
+    router.push('/') // Перенаправляем на главную страницу
+  } catch (error) {
+    errorMessage.value = error
+    isError.value = true
+  }
 }
 </script>
 <style scoped>
+.error {
+  color: red;
+  margin-top: 10px;
+}
 * {
   margin: 0;
   padding: 0;

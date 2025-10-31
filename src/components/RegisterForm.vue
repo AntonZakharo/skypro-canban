@@ -13,6 +13,7 @@
               name="first-name"
               id="first-name"
               placeholder="Имя"
+              v-model="login"
             />
             <input
               class="modal__input login"
@@ -20,6 +21,7 @@
               name="login"
               id="loginReg"
               placeholder="Эл. почта"
+              v-model="email"
             />
             <input
               class="modal__input password-first"
@@ -27,9 +29,11 @@
               name="password"
               id="passwordFirst"
               placeholder="Пароль"
+              v-model="password"
             />
-            <button class="modal__btn-signup-ent _hover01" id="SignUpEnter">
-              <a href="../main.html">Зарегистрироваться</a>
+            <div v-if="isError" class="error">{{ errorMessage }}</div>
+            <button @click="handleSignUp" class="modal__btn-signup-ent _hover01" id="SignUpEnter">
+              Зарегистрироваться
             </button>
             <div class="modal__form-group">
               <p>Уже есть аккаунт? <RouterLink to="/sign-in">Войдите здесь</RouterLink></p>
@@ -40,7 +44,39 @@
     </div>
   </div>
 </template>
+<script setup>
+import { signUp } from '@/services/auth'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const login = ref('')
+const email = ref('')
+const password = ref('')
+const router = useRouter()
+const errorMessage = ref()
+const isError = ref(false)
+
+async function handleSignUp(e) {
+  e.preventDefault()
+
+  try {
+    const data = await signUp({ name: login.value, login: email.value, password: password.value })
+    localStorage.setItem('userInfo', 'true')
+    localStorage.setItem('token', data.token)
+    router.push('/') //
+  } catch {
+    if (login.value == '' || email.value == '' || password.value == '') {
+      errorMessage.value = 'Заполнены не все поля'
+      isError.value = true
+    }
+  }
+}
+</script>
 <style scoped>
+.error {
+  color: red;
+  margin-top: 10px;
+}
 * {
   margin: 0;
   padding: 0;

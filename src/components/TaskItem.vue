@@ -2,8 +2,8 @@
   <div class="cards__item">
     <div class="cards__card card">
       <div class="card__group">
-        <div :class="`card__theme _${color}`">
-          <p :class="`_${color}`">{{ topic }}</p>
+        <div :class="`card__theme _${color[topic]}`">
+          <p :class="`_${color[topic]}`">{{ topic }}</p>
         </div>
         <RouterLink :to="`/task/${id}`">
           <div class="card__btn">
@@ -53,13 +53,18 @@
   </div>
 </template>
 <script setup>
+import { computed } from 'vue'
 defineProps({
-  id: Number,
+  id: String,
   topic: String,
   title: String,
   date: String,
-  color: String,
 })
+const color = computed(() => ({
+  Research: 'green',
+  'Web Design': 'orange',
+  Copywriting: 'purple',
+}))
 </script>
 
 <style scoped>
