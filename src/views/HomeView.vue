@@ -18,7 +18,7 @@ import { getTasks } from '@/services/api'
 
 const router = useRouter()
 const tasks = ref([])
-const loading = ref()
+const loading = ref(true)
 const error = ref()
 
 const token = JSON.parse(localStorage.getItem('userInfo'))
@@ -27,8 +27,6 @@ if (token == null || !token.token) {
   router.push('/sign-in')
 }
 router.beforeEach((to, from, next) => {
-  // Берем токен
-
   // Проверяем, действительно ли на маршруте нужна авторизация и есть ли токен
   if (to.meta.requiresAuth && !token.token) {
     next('/sign-in') // Если нет, уводим на страницу входа
@@ -38,7 +36,7 @@ router.beforeEach((to, from, next) => {
 })
 
 provide('tasksData', { tasks, error })
-getTasks(tasks, loading, error).then(() => {
+getTasks(tasks, error).then(() => {
   loading.value = false
 })
 watch(error, () => {

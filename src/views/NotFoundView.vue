@@ -1,8 +1,16 @@
 <template>
-  <div class="container"><p>Error 404. Page not found</p></div>
-  <div class="container2"><RouterLink class="back" to="/">Вернуться на главную</RouterLink></div>
+  <div class="main">
+    <div class="container"><p>Error 404. Page not found</p></div>
+    <div class="container2"><RouterLink class="back" to="/">Вернуться на главную</RouterLink></div>
+  </div>
 </template>
 <style scoped>
+.main {
+  background: #fff;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
 .container {
   font-size: 35px;
   position: absolute;
@@ -16,16 +24,20 @@
 }
 .container2 {
   position: absolute;
-  top: 200px;
+  top: 150px;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 .back {
-  color: black;
-  background-color: #fff;
-  border: 2px solid black;
-  border-radius: 25px;
   padding: 10px 17.5px;
   font-size: 20px;
+  border-radius: 4px;
+  background: #565eef;
+  border: none;
+  outline: none;
+  color: #ffffff;
+}
+.back:hover {
+  background-color: #33399b;
 }
 </style>
