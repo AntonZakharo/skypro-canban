@@ -8,6 +8,10 @@
           </div>
           <form class="modal__form-login" id="formLogIn" action="#">
             <input
+              :class="{
+                _error: isError,
+                _correct: !isError,
+              }"
               class="modal__input"
               type="text"
               name="email"
@@ -16,6 +20,10 @@
               v-model="email"
             />
             <input
+              :class="{
+                _error: isError,
+                _correct: !isError,
+              }"
               class="modal__input"
               type="password"
               name="password"
@@ -64,9 +72,15 @@ async function handleSignIn(e) {
 </script>
 <style scoped>
 .error {
-  color: red;
+  color: #cc2626;
   margin-top: 10px;
   text-align: center;
+}
+._error {
+  border: 0.7px solid #cc2626;
+}
+._correct {
+  border: 0.7px solid rgba(148, 166, 190, 0.4);
 }
 * {
   margin: 0;
@@ -167,7 +181,6 @@ a {
   width: 100%;
   min-width: 100%;
   border-radius: 8px;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
   outline: none;
   padding: 10px 8px;
 }

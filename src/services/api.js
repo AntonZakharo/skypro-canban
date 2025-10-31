@@ -12,7 +12,7 @@ async function fetchWords({ token }) {
 
     return data.data
   } catch (error) {
-    throw new Error(error.message)
+    throw new Error(error)
   }
 }
 export const getTasks = async (tasks, error) => {
@@ -26,7 +26,7 @@ export const getTasks = async (tasks, error) => {
     error.value = err
   }
 }
-export async function postTask(task) {
+export async function postTask(task, error) {
   try {
     const data = await axios.post(API_URL, task, {
       headers: {
@@ -35,12 +35,12 @@ export async function postTask(task) {
       },
     })
     return data.data.words
-  } catch (error) {
-    throw new Error(error.message)
+  } catch (err) {
+    error.value = err
   }
 }
 
-export async function editTask({ id, task }) {
+export async function editTask(id, task, error) {
   try {
     const data = await axios.put(API_URL + id, task, {
       headers: {
@@ -49,12 +49,12 @@ export async function editTask({ id, task }) {
       },
     })
     return data.data.words
-  } catch (error) {
-    throw new Error(error.message)
+  } catch (err) {
+    error.value = err
   }
 }
 
-export async function deleteTask(id) {
+export async function deleteTask(id, error) {
   try {
     const data = await axios.delete(API_URL + id, {
       headers: {
@@ -64,7 +64,7 @@ export async function deleteTask(id) {
     })
 
     return data.data.words
-  } catch (error) {
-    throw new Error(error.message)
+  } catch (err) {
+    error.value = err
   }
 }

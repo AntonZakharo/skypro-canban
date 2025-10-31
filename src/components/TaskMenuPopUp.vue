@@ -11,7 +11,21 @@
           </div>
           <div class="pop-browse__status status">
             <p class="status__p subttl">Статус</p>
-            <div class="status__theme _gray">{{ task.status }}</div>
+            <div class="status__themes" v-if="isEditing">
+              <div
+                :class="{
+                  _gray: status === statusName,
+                  status__theme_edit: status !== statusName,
+                }"
+                class="status__theme"
+                @click="handleStatus(statusName)"
+                v-for="(statusName, index) in statuses"
+                :key="index"
+              >
+                {{ statusName }}
+              </div>
+            </div>
+            <div v-else class="status__theme _gray">{{ task.status }}</div>
           </div>
           <div class="pop-browse__wrap">
             <form class="pop-browse__form form-browse" id="formBrowseCard" action="#">
@@ -23,11 +37,12 @@
                   id="textArea01"
                   :disabled="isDisabled"
                   placeholder="Введите описание задачи..."
-                  :value="task.description"
+                  :value="description"
+                  v-model="description"
                 ></textarea>
               </div>
             </form>
-            <BaseCalendar />
+            <BaseCalendar v-model:date="date" />
           </div>
           <div class="theme-down__categories theme-down">
             <p class="categories__p subttl">Категория</p>
@@ -35,30 +50,46 @@
               <p class="_orange">Web Design</p>
             </div>
           </div>
-          <div class="pop-browse__btn-browse">
+          <div v-if="isEditing" class="pop-browse__btn-edit">
             <div class="btn-group">
-              <button class="btn-browse__edit _btn-bor _hover03">
-                <a @onclick="editTask(route.params.id)">Редактировать задачу</a>
-              </button>
-              <button class="btn-browse__delete _btn-bor _hover03">
-                <RouterLink to="/" @click="deleteTask(route.params.id)">Удалить задачу</RouterLink>
-              </button>
+              <RouterLink to="/" @click="saveChanges" class="btn-edit__edit _btn-bg _hover01"
+                >Сохранить</RouterLink
+              >
+              <a
+                @click="
+                  () => {
+                    isEditing = false
+                    isDisabled = true
+                  }
+                "
+                class="btn-edit__edit _btn-bor _hover03"
+              >
+                Отменить
+              </a>
+              <RouterLink to="/" @click="removeTask" class="btn-edit__delete _btn-bor _hover03">
+                Удалить задачу
+              </RouterLink>
             </div>
-            <button class="btn-browse__close _btn-bg _hover01">
-              <RouterLink to="/">Закрыть</RouterLink>
-            </button>
+            <RouterLink to="/" class="btn-edit__close _btn-bg _hover01">Закрыть</RouterLink>
           </div>
-          <div class="pop-browse__btn-edit _hide">
+          <div v-else class="pop-browse__btn-browse">
             <div class="btn-group">
-              <button class="btn-edit__edit _btn-bg _hover01"><a href="#">Сохранить</a></button>
-              <button class="btn-edit__edit _btn-bor _hover03"><a href="#">Отменить</a></button>
-              <button class="btn-edit__delete _btn-bor _hover03" id="btnDelete">
-                <a href="#">Удалить задачу</a>
-              </button>
+              <a
+                @click="
+                  () => {
+                    isEditing = true
+                    isDisabled = false
+                  }
+                "
+                class="btn-browse__edit _btn-bor _hover03"
+              >
+                Редактировать задачу
+              </a>
+              <RouterLink to="/" @click="removeTask" class="btn-browse__delete _btn-bor _hover03">
+                Удалить задачу
+              </RouterLink>
             </div>
-            <RouterLink to="/" class="btn-edit__close _btn-bg _hover01">
-              <p>Закрыть</p>
-            </RouterLink>
+            <RouterLink to="/" class="btn-browse__close _btn-bg _hover01">Закрыть</RouterLink>
           </div>
         </div>
       </div>
@@ -69,11 +100,12 @@
 import { computed, inject, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import BaseCalendar from './BaseCalendar.vue'
-import { deleteTask, editTask } from '@/services/api'
+import { deleteTask, editTask, getTasks } from '@/services/api'
 
-const { tasks } = inject('tasksData')
+const { tasks, error } = inject('tasksData')
 const route = useRoute()
 const isDisabled = ref(true)
+const isEditing = ref(false)
 
 const task = computed(() => {
   return (
@@ -82,14 +114,50 @@ const task = computed(() => {
       title: 'undefined',
       topic: 'undefined',
       description: 'undefined',
+      date: Date(),
     }
   )
 })
+
+const title = ref(task.value.title)
+const topic = ref(task.value.topic)
+const status = ref()
+const description = ref(task.value.description)
+const date = ref()
+
 const color = computed(() => ({
   Research: 'green',
   'Web Design': 'orange',
   Copywriting: 'purple',
 }))
+const statuses = ref({
+  1: 'Без статуса',
+  2: 'Нужно сделать',
+  3: 'В работе',
+  4: 'Тестирование',
+  5: 'Готово',
+})
+
+function handleStatus(statusName) {
+  status.value = statusName
+}
+
+async function saveChanges() {
+  const task = {
+    title: title.value,
+    topic: topic.value,
+    status: status.value,
+    description: description.value,
+    date: date.value,
+  }
+
+  await editTask(route.params.id, JSON.stringify(task), error)
+  getTasks(tasks, error)
+}
+async function removeTask() {
+  await deleteTask(route.params.id, error)
+  getTasks(tasks, error)
+}
 </script>
 <style scoped>
 .loading-container {
@@ -240,14 +308,18 @@ const color = computed(() => ({
   align-items: flex-start;
   justify-content: space-between;
 }
-.pop-browse__btn-browse button,
-.pop-browse__btn-edit button {
+.btn-group {
+  display: flex;
+}
+.pop-browse__btn-browse a,
+.pop-browse__btn-edit a {
+  display: block;
   height: 30px;
   margin-bottom: 10px;
-  padding: 0 14px;
+  padding: 10px 14px;
 }
-.pop-browse__btn-browse .btn-group button,
-.pop-browse__btn-edit .btn-group button {
+.pop-browse__btn-browse .btn-group a,
+.pop-browse__btn-edit .btn-group a {
   margin-right: 8px;
 }
 
@@ -295,17 +367,23 @@ const color = computed(() => ({
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: flex-start;
+  gap: 7px;
 }
 .status__theme {
   border-radius: 24px;
   border: 0.7px solid rgba(148, 166, 190, 0.4);
+  color: white;
+  padding: 10px 16.5px;
+  cursor: pointer;
+
+  display: inline-block;
+  font-weight: 400;
   font-size: 14px;
   line-height: 10px;
-  color: white;
-  padding: 10px 17.5px;
-  margin-right: 7px;
-  margin-bottom: 7px;
-  display: inline-block;
+  letter-spacing: -1%;
+}
+.status__theme_edit {
+  color: #94a6be;
 }
 .status__theme p {
   font-size: 14px;
@@ -319,6 +397,12 @@ const color = computed(() => ({
   outline: none;
   background: transparent;
   color: #565eef;
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 10px;
+  letter-spacing: -1%;
+  text-align: center;
 }
 ._btn-bor a {
   color: #565eef;
@@ -330,6 +414,9 @@ const color = computed(() => ({
   border: none;
   outline: none;
   color: #ffffff;
+  font-size: 14px;
+  line-height: 10px;
+  font-weight: 500;
 }
 ._btn-bg a {
   color: #ffffff;

@@ -65,7 +65,7 @@ import { getTasks, postTask } from '@/services/api'
 const name = ref()
 const desc = ref()
 const category = ref()
-let selectedDate = ref()
+const selectedDate = ref()
 const categories = [
   { id: 1, name: 'Web Design', color: '_orange' },
   { id: 2, name: 'Research', color: '_green' },
@@ -84,7 +84,7 @@ async function createTask() {
     topic: category.value,
     date: selectedDate.value,
   }
-  await postTask(JSON.stringify(task))
+  await postTask(JSON.stringify(task), error)
   await getTasks(tasks, error)
 }
 </script>

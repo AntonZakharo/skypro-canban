@@ -125,8 +125,14 @@ const calendarDays = computed(() => {
     })
   }
 
-  // Дни следующего месяца, чтобы завершить неделю
-  const remaining = 42 - days.length
+  // Дни следующего месяца, чтобы завершить неделю\
+  let remaining = 0
+  if (days.length > 35) {
+    remaining = 42 - days.length
+  } else {
+    remaining = 35 - days.length
+  }
+
   for (let i = 1; i <= remaining; i++) {
     days.push({
       day: i,
@@ -197,7 +203,7 @@ function selectDate(dayObj) {
   line-height: 1;
 }
 ._other-month {
-  opacity: 0;
+  opacity: 0.5;
 }
 
 ._cell-day:hover {
@@ -258,7 +264,6 @@ function selectDate(dayObj) {
 }
 .calendar__cells {
   width: 182px;
-  height: 126px;
   display: flex;
   flex-wrap: wrap;
 }
