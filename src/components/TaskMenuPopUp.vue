@@ -14,8 +14,8 @@
             <div class="status__themes" v-if="isEditing">
               <div
                 :class="{
-                  _gray: status === statusName,
-                  status__theme_edit: status !== statusName,
+                  _gray: tempStatus === statusName,
+                  status__theme_edit: tempStatus !== statusName,
                 }"
                 class="status__theme"
                 @click="handleStatus(statusName)"
@@ -37,24 +37,19 @@
                   id="textArea01"
                   :disabled="isDisabled"
                   placeholder="Введите описание задачи..."
-                  :value="description"
-                  v-model="description"
+                  v-model="task.description"
+                  :class="{
+                    _error: isError,
+                    _correct: !isError,
+                  }"
                 ></textarea>
               </div>
             </form>
-            <BaseCalendar v-model:date="date" />
-          </div>
-          <div class="theme-down__categories theme-down">
-            <p class="categories__p subttl">Категория</p>
-            <div class="categories__theme _orange _active-category">
-              <p class="_orange">Web Design</p>
-            </div>
+            <BaseCalendar v-model:date="date" :isEditing="isEditing" :taskDate="task.date" />
           </div>
           <div v-if="isEditing" class="pop-browse__btn-edit">
             <div class="btn-group">
-              <RouterLink to="/" @click="saveChanges" class="btn-edit__edit _btn-bg _hover01"
-                >Сохранить</RouterLink
-              >
+              <a @click="saveChanges" class="btn-edit__edit _btn-bg _hover01">Сохранить</a>
               <a
                 @click="
                   () => {
@@ -97,15 +92,44 @@
   </div>
 </template>
 <script setup>
-import { computed, inject, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, inject, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import BaseCalendar from './BaseCalendar.vue'
 import { deleteTask, editTask, getTasks } from '@/services/api'
+
+function handleStatus(statusName) {
+  tempStatus.value = statusName
+}
+
+async function saveChanges() {
+  const t = {
+    title: task.value.title,
+    topic: task.value.topic,
+    status: tempStatus.value,
+    description: task.value.description,
+    date: task.value.date,
+  }
+  console.log(t)
+  if (t.description) {
+    await editTask(route.params.id, JSON.stringify(t), error)
+    getTasks(tasks, error)
+    router.push('/')
+  } else {
+    isError.value = true
+  }
+}
+async function removeTask() {
+  await deleteTask(route.params.id, error)
+  getTasks(tasks, error)
+}
 
 const { tasks, error } = inject('tasksData')
 const route = useRoute()
 const isDisabled = ref(true)
 const isEditing = ref(false)
+const router = useRouter()
+const isError = ref(false)
+const date = ref()
 
 const task = computed(() => {
   return (
@@ -118,13 +142,7 @@ const task = computed(() => {
     }
   )
 })
-
-const title = ref(task.value.title)
-const topic = ref(task.value.topic)
-const status = ref()
-const description = ref(task.value.description)
-const date = ref()
-
+const tempStatus = ref(task.value.status)
 const color = computed(() => ({
   Research: 'green',
   'Web Design': 'orange',
@@ -137,29 +155,28 @@ const statuses = ref({
   4: 'Тестирование',
   5: 'Готово',
 })
-
-function handleStatus(statusName) {
-  status.value = statusName
-}
-
-async function saveChanges() {
-  const task = {
-    title: title.value,
-    topic: topic.value,
-    status: status.value,
-    description: description.value,
-    date: date.value,
-  }
-
-  await editTask(route.params.id, JSON.stringify(task), error)
-  getTasks(tasks, error)
-}
-async function removeTask() {
-  await deleteTask(route.params.id, error)
-  getTasks(tasks, error)
-}
+watch(tasks, () => {
+  const task = computed(() => {
+    return (
+      tasks.value.find((t) => t._id == route.params.id) || {
+        status: 'undefined',
+        title: 'undefined',
+        topic: 'undefined',
+        description: 'undefined',
+        date: Date(),
+      }
+    )
+  })
+  tempStatus.value = task.value.status
+})
 </script>
 <style scoped>
+._correct {
+  border: 0.7px solid rgba(148, 166, 190, 0.4);
+}
+._error {
+  border: 0.7px solid #cc2626;
+}
 .loading-container {
   height: 10vh;
 }
@@ -205,31 +222,31 @@ async function removeTask() {
 }
 
 .subttl {
-  color: #000;
+  color: var(--text-color);
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
 }
 ._gray {
   background: #94a6be;
-  color: #ffffff;
+  color: var(--status-text);
 }
 ._active-category {
   opacity: 1 !important;
 }
 ._orange {
-  background-color: #ffe4c2;
-  color: #ff6d00;
+  background-color: var(--card-theme-bg-orange);
+  color: var(--card-theme-text-orange);
 }
 
 ._green {
-  background-color: #b4fdd1;
-  color: #06b16e;
+  background-color: var(--card-theme-bg-green);
+  color: var(--card-theme-text-green);
 }
 
 ._purple {
-  background-color: #e9d4ff;
-  color: #9a48f1;
+  background-color: var(--card-theme-bg-purple);
+  color: var(--card-theme-text-purple);
 }
 .pop-browse {
   display: block;
@@ -256,12 +273,13 @@ async function removeTask() {
 .pop-browse__block {
   display: block;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
+  color: var(--text-color);
   max-width: 630px;
   width: 100%;
   padding: 40px 30px 38px;
   border-radius: 10px;
-  border: 0.7px solid #d4dbe5;
+  border: 0.7px solid var(--border-color);
   position: relative;
 }
 .pop-browse__content {
@@ -285,7 +303,6 @@ async function removeTask() {
   margin-bottom: 18px;
 }
 .pop-browse__ttl {
-  color: #000;
   font-size: 20px;
   font-weight: 600;
   line-height: 24px;
@@ -332,8 +349,7 @@ async function removeTask() {
   width: 100%;
   outline: none;
   padding: 14px;
-  background: #eaeef6;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
+  background: var(--textarea-bg);
   border-radius: 8px;
   font-size: 14px;
   line-height: 1;
@@ -372,7 +388,7 @@ async function removeTask() {
 .status__theme {
   border-radius: 24px;
   border: 0.7px solid rgba(148, 166, 190, 0.4);
-  color: white;
+  color: var(--status-text);
   padding: 10px 16.5px;
   cursor: pointer;
 

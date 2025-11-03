@@ -46,14 +46,14 @@
               </clipPath>
             </defs>
           </svg>
-          <p>{{ date }}</p>
+          <p>{{ formatDate(date) }}</p>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 defineProps({
   id: String,
   topic: String,
@@ -65,6 +65,7 @@ const color = computed(() => ({
   'Web Design': 'orange',
   Copywriting: 'purple',
 }))
+const formatDate = inject('formatDate')
 </script>
 
 <style scoped>
@@ -77,7 +78,7 @@ const color = computed(() => ({
 .cards__card {
   width: 220px;
   height: 130px;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -123,7 +124,7 @@ const color = computed(() => ({
   font-size: 14px;
   font-weight: 500;
   line-height: 18px;
-  color: #000000;
+  color: var(--text-color);
   margin-bottom: 10px;
 }
 .card__content {
@@ -150,17 +151,17 @@ const color = computed(() => ({
 }
 
 ._orange {
-  background-color: #ffe4c2;
-  color: #ff6d00;
+  background-color: var(--card-theme-bg-orange);
+  color: var(--card-theme-text-orange);
 }
 
 ._green {
-  background-color: #b4fdd1;
-  color: #06b16e;
+  background-color: var(--card-theme-bg-green);
+  color: var(--card-theme-text-green);
 }
 
 ._purple {
-  background-color: #e9d4ff;
-  color: #9a48f1;
+  background-color: var(--card-theme-bg-purple);
+  color: var(--card-theme-text-purple);
 }
 </style>

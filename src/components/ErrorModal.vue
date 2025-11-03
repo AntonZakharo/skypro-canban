@@ -52,6 +52,7 @@ error = String(error.value).slice(7)
     text-align: center;
     font-size: 30px;
     margin-bottom: 20px;
+    color: black;
   }
   &__text {
     color: #cc2626;

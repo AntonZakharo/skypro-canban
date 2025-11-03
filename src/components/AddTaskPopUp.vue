@@ -17,6 +17,10 @@
                   placeholder="Введите название задачи..."
                   v-model="name"
                   autofocus
+                  :class="{
+                    _correct: name || !isError,
+                    error__input: !name && isError,
+                  }"
                 />
               </div>
               <div class="form-new__block">
@@ -27,14 +31,29 @@
                   id="textArea"
                   placeholder="Введите описание задачи..."
                   v-model="desc"
+                  :class="{
+                    _correct: desc || !isError,
+                    error__input: !desc && isError,
+                  }"
                 ></textarea>
               </div>
             </form>
-            <BaseCalendar v-model:date="selectedDate" />
+            <BaseCalendar
+              v-model:date="selectedDate"
+              :isEditing="true"
+              :class="{
+                error__input: !selectedDate && isError,
+              }"
+            />
           </div>
           <div class="pop-new-card__categories categories">
             <p class="categories__p subttl">Категория</p>
-            <div class="categories__themes">
+            <div
+              class="categories__themes"
+              :class="{
+                error__input: !category && isError,
+              }"
+            >
               <div
                 v-for="cat in categories"
                 :key="cat.id"
@@ -49,9 +68,17 @@
               </div>
             </div>
           </div>
-          <RouterLink to="/" class="form-new__create _hover01" id="btnCreate" @click="createTask">
+          <div v-if="isError" class="error">Заполнены не все поля</div>
+          <div
+            :class="{
+              _blocked: isBlocked,
+            }"
+            class="form-new__create _hover01"
+            id="btnCreate"
+            @click="createTask"
+          >
             Создать задачу
-          </RouterLink>
+          </div>
         </div>
       </div>
     </div>
@@ -61,11 +88,15 @@
 import { inject, ref } from 'vue'
 import BaseCalendar from './BaseCalendar.vue'
 import { getTasks, postTask } from '@/services/api'
+import { useRouter } from 'vue-router'
 
 const name = ref()
 const desc = ref()
 const category = ref()
 const selectedDate = ref()
+const isError = ref(false)
+const isBlocked = ref(false)
+const router = useRouter()
 const categories = [
   { id: 1, name: 'Web Design', color: '_orange' },
   { id: 2, name: 'Research', color: '_green' },
@@ -84,11 +115,28 @@ async function createTask() {
     topic: category.value,
     date: selectedDate.value,
   }
-  await postTask(JSON.stringify(task), error)
-  await getTasks(tasks, error)
+  if (task.title && task.description && task.topic && task.date) {
+    isBlocked.value = true
+    await postTask(JSON.stringify(task), error)
+    getTasks(tasks, error)
+    router.push('/')
+  } else {
+    isError.value = true
+  }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
+._blocked {
+  pointer-events: none;
+}
+.error {
+  color: #cc2626;
+  text-align: center;
+  &__input {
+    border: 0.7px solid #cc2626;
+    border-radius: 5px;
+  }
+}
 ._active-category {
   opacity: 1 !important;
 }
@@ -124,6 +172,7 @@ async function createTask() {
   flex-wrap: nowrap;
   align-items: flex-start;
   justify-content: flex-start;
+  width: fit-content;
   cursor: pointer;
 }
 .categories__p {
@@ -155,11 +204,13 @@ async function createTask() {
   outline: none;
   padding: 14px;
   background: transparent;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
   border-radius: 8px;
   font-size: 14px;
   line-height: 1;
   letter-spacing: -0.14px;
+}
+._correct {
+  border: 0.7px solid rgba(148, 166, 190, 0.4);
 }
 .form-new__input::-moz-placeholder,
 .form-new__area::-moz-placeholder {

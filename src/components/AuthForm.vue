@@ -58,6 +58,8 @@ const isError = ref(false)
 
 const { setUserInfo } = inject('auth')
 
+const { error } = inject('tasksData')
+
 async function handleSignIn(e) {
   e.preventDefault() // Предотвращаем перезагрузку страницы
   try {
@@ -66,7 +68,7 @@ async function handleSignIn(e) {
       isError.value = true
       return
     }
-    const data = await signIn({ login: email.value, password: password.value })
+    const data = await signIn({ login: email.value, password: password.value }, error)
     setUserInfo(data)
     router.push('/') // Перенаправляем на главную страницу
   } catch (error) {
@@ -129,7 +131,7 @@ a {
 .wrapper {
   width: 100%;
   height: 100%;
-  background-color: #eaeef6;
+  background-color: var(--bg-color);
 }
 
 .container-signin {

@@ -2,10 +2,14 @@
   <RouterView></RouterView>
 </template>
 <script setup>
-import { provide, ref } from 'vue'
-import { RouterView } from 'vue-router'
+import { provide, ref, watch } from 'vue'
+import { RouterView, useRouter } from 'vue-router'
 
 const userInfo = ref(null)
+const router = useRouter()
+const tasks = ref([])
+const loading = ref(true)
+const error = ref()
 
 function setUserInfo(value) {
   userInfo.value = value
@@ -25,5 +29,8 @@ function removeUserInfo() {
   }
 }
 provide('auth', { userInfo, setUserInfo, removeUserInfo })
+provide('tasksData', { tasks, error, loading })
+watch(error, () => {
+  router.push('/error')
+})
 </script>
-

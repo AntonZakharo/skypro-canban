@@ -51,7 +51,8 @@
                 selectedDate &&
                 day.day === selectedDate.getDate() &&
                 currentMonth === selectedDate.getMonth() &&
-                currentYear === selectedDate.getFullYear(),
+                currentYear === selectedDate.getFullYear() &&
+                day.otherMonth === false,
             }"
             @click="selectDate(day)"
           >
@@ -61,18 +62,30 @@
       </div>
 
       <div class="calendar__period">
-        <p class="calendar__p date-end">
+        <p v-if="isEditing" class="calendar__p date-end">
           Выберите срок исполнения
           <span class="date-control">
             {{ selectedDate ? selectedDate.toLocaleDateString() : '' }} </span
           >.
+        </p>
+        <p v-else class="calendar__p date-end">
+          Cрок исполнения
+          <span class="date-control"> {{ formatDate(taskDate) }} </span>.
         </p>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, inject } from 'vue'
+
+defineProps({
+  isEditing: Boolean,
+  taskDate: String,
+})
+
+const formatDate = inject('formatDate')
+
 const today = new Date()
 
 const currentMonth = ref(today.getMonth())
@@ -197,7 +210,7 @@ function selectDate(dayObj) {
   fill: #94a6be;
 }
 .subttl {
-  color: #000;
+  color: var(--text-color);
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
@@ -216,8 +229,9 @@ function selectDate(dayObj) {
   color: #ffffff;
 }
 
-._current {
-  font-weight: bolder;
+.calendar__cell._current {
+  font-weight: bold;
+  color: rgb(124, 118, 118);
 }
 .calendar {
   width: 182px;
@@ -233,7 +247,7 @@ function selectDate(dayObj) {
   line-height: 1;
 }
 .calendar__p span {
-  color: #000000;
+  color: var(--calendar-text);
 }
 .calendar__block {
   display: block;

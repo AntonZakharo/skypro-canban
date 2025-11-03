@@ -1,0 +1,41 @@
+:root {
+  --bg-color: #eaeef6;
+  --text-color: #000000;
+  --header-link-color: #565eef;
+  --header-border: #565eef 1px solid;
+  --header-name-hover: #33399b;
+  --header-bg: #ffffff;
+  --header-bg-popup: #ffffff;
+  --card-bg: #ffffff;
+  --card-theme-bg-orange: #ffe4c2;
+  --card-theme-text-orange: #ff6d00;
+  --card-theme-bg-green: #b4fdd1;
+  --card-theme-text-green: #06b16e;
+  --card-theme-bg-purple: #e9d4ff;
+  --card-theme-text-purple: #9a48f1;
+  --status-text: #ffffff;
+  --calendar-text: #000;
+  --textarea-bg: #eaeef6;
+  --border-color: #d4dbe5;
+}
+
+html.dark {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --header-link-color: #ffffff;
+  --header-name-hover: #ffffff;
+  --header-border: #ffffff 1px solid;
+  --header-bg: #20202c;
+  --header-bg-popup: #202229;
+  --card-bg: #20202c;
+  --card-theme-bg-orange: #ff6d00;
+  --card-theme-text-orange: #ffe4c2;
+  --card-theme-bg-green: #06b16e;
+  --card-theme-text-green: #b4fdd1;
+  --card-theme-bg-purple: #9a48f1;
+  --card-theme-text-purple: #e9d4ff;
+  --status-text: #151419;
+  --calendar-text: #ffffff;
+  --textarea-bg: #151419;
+  --border-color: #4e5566;
+}

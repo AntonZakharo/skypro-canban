@@ -48,6 +48,7 @@ const isEmpty = computed(() => {
   background-color: #ffffff;
   border-radius: 40px;
   border: 0.7px solid black;
+  color: black;
   display: inline;
   padding: 5px 80px;
   margin-top: 60px;
