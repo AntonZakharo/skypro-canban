@@ -66,6 +66,7 @@ provide('formatDate', formatDate)
   width: 100vw;
   min-height: 100vh;
   background-color: var(--bg-color);
+  color: var(--text-color);
 }
 .container {
   max-width: 1260px;

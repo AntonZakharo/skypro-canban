@@ -58,19 +58,20 @@ const isError = ref(false)
 
 const { setUserInfo } = inject('auth')
 
-const { error } = inject('tasksData')
-
 async function handleSignIn(e) {
-  e.preventDefault() // Предотвращаем перезагрузку страницы
+  e.preventDefault()
   try {
     if (email.value == '' || password.value == '') {
       errorMessage.value = 'Поля не заполнены'
       isError.value = true
       return
     }
-    const data = await signIn({ login: email.value, password: password.value }, error)
+    const data = await signIn({ login: email.value, password: password.value })
+    console.log(data)
     setUserInfo(data)
-    router.push('/') // Перенаправляем на главную страницу
+    if (data != undefined) {
+      router.push('/')
+    }
   } catch (error) {
     errorMessage.value = String(error).slice(7)
     isError.value = true
@@ -158,12 +159,12 @@ a {
 .modal__block {
   display: block;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   max-width: 368px;
   width: 100%;
   padding: 50px 60px;
   border-radius: 10px;
-  border: 0.7px solid #d4dbe5;
+  border: 0.7px solid var(--border-color);
   box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
 }
 .modal__ttl h2 {
@@ -173,6 +174,7 @@ a {
   line-height: 30px;
   letter-spacing: -0.6px;
   margin-bottom: 20px;
+  color: var(--text-color);
 }
 .modal__form-login {
   width: 100%;
@@ -190,6 +192,8 @@ a {
   border-radius: 8px;
   outline: none;
   padding: 10px 8px;
+  background: transparent;
+  color: var(--input-text);
 }
 .modal__input::-moz-placeholder {
   font-family: 'Roboto', sans-serif;

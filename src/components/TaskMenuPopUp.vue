@@ -41,6 +41,8 @@
                   :class="{
                     _error: isError,
                     _correct: !isError,
+                    _editing: isEditing,
+                    _viewing: !isEditing,
                   }"
                 ></textarea>
               </div>
@@ -171,6 +173,12 @@ watch(tasks, () => {
 })
 </script>
 <style scoped>
+._viewing {
+  color: #94a6be;
+}
+._editing {
+  color: #ffffff;
+}
 ._correct {
   border: 0.7px solid rgba(148, 166, 190, 0.4);
 }
@@ -213,6 +221,7 @@ watch(tasks, () => {
 ._hover03:hover {
   background-color: #33399b;
   color: #ffffff;
+  border: #33399b 1px solid;
 }
 ._hover03:hover a {
   color: #ffffff;
@@ -349,6 +358,7 @@ watch(tasks, () => {
   width: 100%;
   outline: none;
   padding: 14px;
+
   background: var(--textarea-bg);
   border-radius: 8px;
   font-size: 14px;
@@ -409,12 +419,12 @@ watch(tasks, () => {
 
 ._btn-bor {
   border-radius: 4px;
-  border: 0.7px solid var(--palette-navy-60, #565eef);
+  border: var(--header-border);
   outline: none;
   background: transparent;
-  color: #565eef;
+  color: var(--header-link-color);
   font-family: Roboto;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 14px;
   line-height: 10px;
   letter-spacing: -1%;

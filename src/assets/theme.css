@@ -1,6 +1,7 @@
 :root {
   --bg-color: #eaeef6;
   --text-color: #000000;
+  --text-color-logout: #565eef;
   --header-link-color: #565eef;
   --header-border: #565eef 1px solid;
   --header-name-hover: #33399b;
@@ -17,11 +18,13 @@
   --calendar-text: #000;
   --textarea-bg: #eaeef6;
   --border-color: #d4dbe5;
+  --input-text: #000;
 }
 
 html.dark {
   --bg-color: #121212;
   --text-color: #ffffff;
+  --text-color-logout: #fff;
   --header-link-color: #ffffff;
   --header-name-hover: #ffffff;
   --header-border: #ffffff 1px solid;
@@ -38,4 +41,5 @@ html.dark {
   --calendar-text: #ffffff;
   --textarea-bg: #151419;
   --border-color: #4e5566;
+  --input-text: #ffffff;
 }

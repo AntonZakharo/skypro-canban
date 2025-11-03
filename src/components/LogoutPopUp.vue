@@ -40,6 +40,7 @@ function logout(e) {
 ._hover03:hover {
   background-color: #33399b;
   color: #ffffff;
+  border: #33399b 1px solid;
 }
 ._hover03:hover a {
   color: #ffffff;
@@ -69,7 +70,7 @@ function logout(e) {
 .pop-exit__block {
   display: block;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   max-width: 370px;
   width: 100%;
   padding: 50px 60px;
@@ -115,7 +116,7 @@ function logout(e) {
   height: 30px;
   background-color: transparent;
   border-radius: 4px;
-  border: 0.7px solid var(--palette-navy-60, #565eef);
+  border: var(--header-border);
   outline: none;
   display: flex;
   align-items: center;
@@ -124,12 +125,11 @@ function logout(e) {
   line-height: 21px;
   font-weight: 500;
   letter-spacing: -0.14px;
-  color: #ffffff;
 }
 .pop-exit__exit-no a {
   width: 100%;
   height: 100%;
-  color: #565eef;
+  color: var(--text-color-logout);
   display: flex;
   align-items: center;
   justify-content: center;

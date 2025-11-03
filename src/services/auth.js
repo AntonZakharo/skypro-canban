@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const API_URL = 'https://wedev-api.sky.pro/api/user'
 
-export async function signIn(userData, error) {
+export async function signIn(userData) {
   try {
     const data = await axios.post(API_URL + '/login', userData, {
       headers: {
@@ -11,12 +11,12 @@ export async function signIn(userData, error) {
     })
 
     return data.data.user
-  } catch (err) {
-    error.value = err
+  } catch (error) {
+    throw new Error(error.response.data.error)
   }
 }
 
-export async function signUp(userData, error) {
+export async function signUp(userData) {
   try {
     const data = await axios.post(API_URL, userData, {
       headers: {
@@ -24,7 +24,7 @@ export async function signUp(userData, error) {
       },
     })
     return data.data.user
-  } catch (err) {
-    error.value = err
+  } catch (error) {
+    throw new Error(error.response.data.error)
   }
 }

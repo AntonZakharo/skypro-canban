@@ -37,14 +37,11 @@
 </template>
 
 <script setup>
-import { useDark, useToggle } from '@vueuse/core'
-import { onMounted, ref, watchEffect } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 const isDisplayed = ref(false)
 const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 
-const isDark = useDark()
-console.log(isDark.value)
-const toggleDark = useToggle(isDark)
+const { isDark, toggleDark } = inject('dark')
 
 onMounted(() => {
   const username = document.querySelector('._hover02')
@@ -52,15 +49,9 @@ onMounted(() => {
     isDisplayed.value = isDisplayed.value ? false : true
   })
 })
-watchEffect(() => {
-  document.documentElement.classList.toggle('dark', isDark.value)
-})
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
-  background: var(--bg-color);
-}
 .header ._hover01:hover {
   background-color: #33399b;
   transition: 0.3s;

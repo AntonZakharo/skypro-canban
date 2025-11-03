@@ -10,6 +10,10 @@ const router = useRouter()
 const tasks = ref([])
 const loading = ref(true)
 const error = ref()
+import { useDark, useToggle } from '@vueuse/core'
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 
 function setUserInfo(value) {
   userInfo.value = value
@@ -30,6 +34,7 @@ function removeUserInfo() {
 }
 provide('auth', { userInfo, setUserInfo, removeUserInfo })
 provide('tasksData', { tasks, error, loading })
+provide('dark', {isDark, toggleDark})
 watch(error, () => {
   router.push('/error')
 })

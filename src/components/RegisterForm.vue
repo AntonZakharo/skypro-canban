@@ -81,7 +81,7 @@ async function handleSignUp(e) {
     isValidEmail.value = false
     isValidName.value = false
     isValidPassword.value = false
-  } else if (!email.value.includes('@') || email.value.length < 4) {
+  } else if (!email.value.includes('@') || email.value.length < 4 || !email.value.includes(' ')) {
     errorMessage.value = 'Не правильно введена почта'
     isError.value = true
     isValidEmail.value = false
@@ -143,13 +143,11 @@ button,
 a {
   font-family: 'Roboto', sans-serif;
 }
-
 .wrapper {
   width: 100%;
   height: 100%;
-  background-color: #eaeef6;
+  background-color: var(--bg-color);
 }
-
 .container-signup {
   display: block;
   width: 100vw;
@@ -174,12 +172,12 @@ a {
 .modal__block {
   display: block;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   max-width: 368px;
   width: 100%;
   padding: 50px 60px;
   border-radius: 10px;
-  border: 0.7px solid #d4dbe5;
+  border: 0.7px solid var(--border-color);
   box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
 }
 .modal__ttl h2 {
@@ -189,6 +187,7 @@ a {
   line-height: 30px;
   letter-spacing: -0.6px;
   margin-bottom: 20px;
+  color: var(--text-color);
 }
 .modal__form-login {
   width: 100%;
@@ -206,6 +205,8 @@ a {
   border-radius: 8px;
   outline: none;
   padding: 10px 8px;
+  background: transparent;
+  color: var(--input-text);
 }
 .modal__input::-moz-placeholder {
   font-family: 'Roboto', sans-serif;

@@ -141,7 +141,7 @@ async function createTask() {
   opacity: 1 !important;
 }
 .subttl {
-  color: #000;
+  color: var(--text-ttl);
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
@@ -150,18 +150,18 @@ async function createTask() {
   background-color: #33399b;
 }
 ._orange {
-  background-color: #ffe4c2;
-  color: #ff6d00;
+  background-color: var(--card-theme-bg-orange);
+  color: var(--card-theme-text-orange);
 }
 
 ._green {
-  background-color: #b4fdd1;
-  color: #06b16e;
+  background-color: var(--card-theme-bg-green);
+  color: var(--card-theme-text-green);
 }
 
 ._purple {
-  background-color: #e9d4ff;
-  color: #9a48f1;
+  background-color: var(--card-theme-bg-purple);
+  color: var(--card-theme-text-purple);
 }
 
 .categories {
@@ -202,6 +202,7 @@ async function createTask() {
 .form-new__area {
   width: 100%;
   outline: none;
+  color: var(--text-color);
   padding: 14px;
   background: transparent;
   border-radius: 8px;
@@ -276,7 +277,7 @@ async function createTask() {
 .pop-new-card__block {
   display: block;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   max-width: 630px;
   width: 100%;
   padding: 40px 30px 48px;
@@ -289,7 +290,7 @@ async function createTask() {
   text-align: left;
 }
 .pop-new-card__ttl {
-  color: #000;
+  color: var(--text-color);
   font-size: 20px;
   font-weight: 600;
   line-height: 24px;
