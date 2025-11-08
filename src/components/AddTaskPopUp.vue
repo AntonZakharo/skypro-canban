@@ -15,7 +15,12 @@
                   name="name"
                   id="formTitle"
                   placeholder="Введите название задачи..."
+                  v-model="name"
                   autofocus
+                  :class="{
+                    _correct: name || !isError,
+                    error__input: !name && isError,
+                  }"
                 />
               </div>
               <div class="form-new__block">
@@ -25,141 +30,118 @@
                   name="text"
                   id="textArea"
                   placeholder="Введите описание задачи..."
+                  v-model="desc"
+                  :class="{
+                    _correct: desc || !isError,
+                    error__input: !desc && isError,
+                  }"
                 ></textarea>
               </div>
             </form>
-            <div class="pop-new-card__calendar calendar">
-              <p class="calendar__ttl subttl">Даты</p>
-              <div class="calendar__block">
-                <div class="calendar__nav">
-                  <div class="calendar__month">Сентябрь 2023</div>
-                  <div class="nav__actions">
-                    <div class="nav__action" data-action="prev">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="6"
-                        height="11"
-                        viewBox="0 0 6 11"
-                      >
-                        <path
-                          d="M5.72945 1.95273C6.09018 1.62041 6.09018 1.0833 5.72945 0.750969C5.36622 0.416344 4.7754 0.416344 4.41218 0.750969L0.528487 4.32883C-0.176162 4.97799 -0.176162 6.02201 0.528487 6.67117L4.41217 10.249C4.7754 10.5837 5.36622 10.5837 5.72945 10.249C6.09018 9.9167 6.09018 9.37959 5.72945 9.04727L1.87897 5.5L5.72945 1.95273Z"
-                        />
-                      </svg>
-                    </div>
-                    <div class="nav__action" data-action="next">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="6"
-                        height="11"
-                        viewBox="0 0 6 11"
-                      >
-                        <path
-                          d="M0.27055 9.04727C-0.0901833 9.37959 -0.0901832 9.9167 0.27055 10.249C0.633779 10.5837 1.2246 10.5837 1.58783 10.249L5.47151 6.67117C6.17616 6.02201 6.17616 4.97799 5.47151 4.32883L1.58782 0.75097C1.2246 0.416344 0.633778 0.416344 0.270549 0.75097C-0.0901831 1.0833 -0.090184 1.62041 0.270549 1.95273L4.12103 5.5L0.27055 9.04727Z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div class="calendar__content">
-                  <div class="calendar__days-names">
-                    <div class="calendar__day-name">пн</div>
-                    <div class="calendar__day-name">вт</div>
-                    <div class="calendar__day-name">ср</div>
-                    <div class="calendar__day-name">чт</div>
-                    <div class="calendar__day-name">пт</div>
-                    <div class="calendar__day-name -weekend-">сб</div>
-                    <div class="calendar__day-name -weekend-">вс</div>
-                  </div>
-                  <div class="calendar__cells">
-                    <div class="calendar__cell _other-month">28</div>
-                    <div class="calendar__cell _other-month">29</div>
-                    <div class="calendar__cell _other-month">30</div>
-                    <div class="calendar__cell _cell-day">31</div>
-                    <div class="calendar__cell _cell-day">1</div>
-                    <div class="calendar__cell _cell-day _weekend">2</div>
-                    <div class="calendar__cell _cell-day _weekend">3</div>
-                    <div class="calendar__cell _cell-day">4</div>
-                    <div class="calendar__cell _cell-day">5</div>
-                    <div class="calendar__cell _cell-day">6</div>
-                    <div class="calendar__cell _cell-day">7</div>
-                    <div class="calendar__cell _cell-day _current">8</div>
-                    <div class="calendar__cell _cell-day _weekend">9</div>
-                    <div class="calendar__cell _cell-day _weekend">10</div>
-                    <div class="calendar__cell _cell-day">11</div>
-                    <div class="calendar__cell _cell-day">12</div>
-                    <div class="calendar__cell _cell-day">13</div>
-                    <div class="calendar__cell _cell-day">14</div>
-                    <div class="calendar__cell _cell-day">15</div>
-                    <div class="calendar__cell _cell-day _weekend">16</div>
-                    <div class="calendar__cell _cell-day _weekend">17</div>
-                    <div class="calendar__cell _cell-day">18</div>
-                    <div class="calendar__cell _cell-day">19</div>
-                    <div class="calendar__cell _cell-day">20</div>
-                    <div class="calendar__cell _cell-day">21</div>
-                    <div class="calendar__cell _cell-day">22</div>
-                    <div class="calendar__cell _cell-day _weekend">23</div>
-                    <div class="calendar__cell _cell-day _weekend">24</div>
-                    <div class="calendar__cell _cell-day">25</div>
-                    <div class="calendar__cell _cell-day">26</div>
-                    <div class="calendar__cell _cell-day">27</div>
-                    <div class="calendar__cell _cell-day">28</div>
-                    <div class="calendar__cell _cell-day">29</div>
-                    <div class="calendar__cell _cell-day _weekend">30</div>
-                    <div class="calendar__cell _other-month _weekend">1</div>
-                  </div>
-                </div>
-
-                <input type="hidden" id="datepick_value" value="08.09.2023" />
-                <div class="calendar__period">
-                  <p class="calendar__p date-end">
-                    Выберите срок исполнения <span class="date-control"></span>.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <BaseCalendar
+              v-model:date="selectedDate"
+              :isEditing="true"
+              :class="{
+                error__input: !selectedDate && isError,
+              }"
+            />
           </div>
           <div class="pop-new-card__categories categories">
             <p class="categories__p subttl">Категория</p>
-            <div class="categories__themes">
-              <div class="categories__theme _orange _active-category">
-                <p class="_orange">Web Design</p>
-              </div>
-              <div class="categories__theme _green">
-                <p class="_green">Research</p>
-              </div>
-              <div class="categories__theme _purple">
-                <p class="_purple">Copywriting</p>
+            <div
+              class="categories__themes"
+              :class="{
+                error__input: !category && isError,
+              }"
+            >
+              <div
+                v-for="cat in categories"
+                :key="cat.id"
+                :class="[
+                  'categories__theme',
+                  cat.color,
+                  { '_active-category': category === cat.name },
+                ]"
+                @click="handleCategory(cat.name)"
+              >
+                <p :class="cat.color">{{ cat.name }}</p>
               </div>
             </div>
           </div>
-          <button class="form-new__create _hover01" id="btnCreate">Создать задачу</button>
+          <div v-if="isError" class="error">Заполнены не все поля</div>
+          <div
+            :class="{
+              _blocked: isBlocked,
+            }"
+            class="form-new__create _hover01"
+            id="btnCreate"
+            @click="createTask"
+          >
+            Создать задачу
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-<style scoped>
-.pop-new-card__calendar {
-  width: 100%;
+<script setup>
+import { inject, ref } from 'vue'
+import BaseCalendar from './BaseCalendar.vue'
+import { getTasks, postTask } from '@/services/api'
+import { useRouter } from 'vue-router'
+
+const name = ref()
+const desc = ref()
+const category = ref()
+const selectedDate = ref()
+const isError = ref(false)
+const isBlocked = ref(false)
+const router = useRouter()
+const categories = [
+  { id: 1, name: 'Web Design', color: '_orange' },
+  { id: 2, name: 'Research', color: '_green' },
+  { id: 3, name: 'Copywriting', color: '_purple' },
+]
+const { tasks, error } = inject('tasksData')
+
+function handleCategory(selectedCategory) {
+  category.value = selectedCategory
 }
-.nav__actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+
+async function createTask() {
+  const task = {
+    title: name.value,
+    description: desc.value,
+    topic: category.value,
+    date: selectedDate.value,
+  }
+  if (task.title && task.description && task.topic && task.date) {
+    isBlocked.value = true
+    await postTask(JSON.stringify(task), error)
+    getTasks(tasks, error)
+    router.push('/')
+  } else {
+    isError.value = true
+  }
 }
-.nav__action {
-  width: 18px;
-  height: 25px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+</script>
+<style scoped lang="scss">
+._blocked {
+  pointer-events: none;
 }
-.nav__action svg {
-  fill: #94a6be;
+.error {
+  color: #cc2626;
+  text-align: center;
+  &__input {
+    border: 0.7px solid #cc2626;
+    border-radius: 5px;
+  }
+}
+._active-category {
+  opacity: 1 !important;
 }
 .subttl {
-  color: #000;
+  color: var(--text-ttl);
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
@@ -168,35 +150,18 @@
   background-color: #33399b;
 }
 ._orange {
-  background-color: #ffe4c2;
-  color: #ff6d00;
+  background-color: var(--card-theme-bg-orange);
+  color: var(--card-theme-text-orange);
 }
 
 ._green {
-  background-color: #b4fdd1;
-  color: #06b16e;
+  background-color: var(--card-theme-bg-green);
+  color: var(--card-theme-text-green);
 }
 
 ._purple {
-  background-color: #e9d4ff;
-  color: #9a48f1;
-}
-._other-month {
-  opacity: 0;
-}
-
-._cell-day:hover {
-  color: #94a6be;
-  background-color: #eaeef6;
-}
-
-._active-day {
-  background-color: #94a6be;
-  color: #ffffff;
-}
-
-._current {
-  font-weight: 700;
+  background-color: var(--card-theme-bg-purple);
+  color: var(--card-theme-text-purple);
 }
 
 .categories {
@@ -207,6 +172,8 @@
   flex-wrap: nowrap;
   align-items: flex-start;
   justify-content: flex-start;
+  width: fit-content;
+  cursor: pointer;
 }
 .categories__p {
   margin-bottom: 14px;
@@ -226,81 +193,7 @@
   line-height: 14px;
   white-space: nowrap;
 }
-.calendar {
-  width: 182px;
-  margin-bottom: 20px;
-}
-.calendar__ttl {
-  margin-bottom: 14px;
-  padding: 0 7px;
-}
-.calendar__p {
-  color: #94a6be;
-  font-size: 10px;
-  line-height: 1;
-}
-.calendar__p span {
-  color: #000000;
-}
-.calendar__block {
-  display: block;
-}
-.calendar__month {
-  color: #94a6be;
-  font-size: 14px;
-  line-height: 25px;
-  font-weight: 600;
-}
-.calendar__content {
-  margin-bottom: 12px;
-}
-.calendar__days-names {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: space-between;
-  margin: 7px 0;
-  padding: 0 7px;
-}
-.calendar__day-name {
-  color: #94a6be;
-  font-size: 10px;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: -0.2px;
-}
-.calendar__cells {
-  width: 182px;
-  height: 126px;
-  display: flex;
-  flex-wrap: wrap;
-}
-.calendar__cell {
-  width: 22px;
-  height: 22px;
-  margin: 2px;
-  border-radius: 50%;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: center;
-  color: #94a6be;
-  font-size: 10px;
-  line-height: 1;
-  letter-spacing: -0.2px;
-  cursor: pointer;
-}
-.calendar__nav {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 14px;
-  padding: 0 7px;
-}
-.calendar__period {
-  padding: 0 7px;
-}
+
 .form-new__block {
   display: flex;
   flex-direction: column;
@@ -309,13 +202,16 @@
 .form-new__area {
   width: 100%;
   outline: none;
+  color: var(--text-color);
   padding: 14px;
   background: transparent;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
   border-radius: 8px;
   font-size: 14px;
   line-height: 1;
   letter-spacing: -0.14px;
+}
+._correct {
+  border: 0.7px solid rgba(148, 166, 190, 0.4);
 }
 .form-new__input::-moz-placeholder,
 .form-new__area::-moz-placeholder {
@@ -350,9 +246,11 @@
   outline: none;
   font-size: 14px;
   font-weight: 500;
-  line-height: 1;
+  line-height: 30px;
   color: #ffffff;
   float: right;
+  text-align: center;
+  padding: 0;
 }
 .pop-new-card {
   display: block;
@@ -379,7 +277,7 @@
 .pop-new-card__block {
   display: block;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   max-width: 630px;
   width: 100%;
   padding: 40px 30px 48px;
@@ -392,7 +290,7 @@
   text-align: left;
 }
 .pop-new-card__ttl {
-  color: #000;
+  color: var(--text-color);
   font-size: 20px;
   font-weight: 600;
   line-height: 24px;

@@ -2,23 +2,29 @@
   <header class="header">
     <div class="container">
       <div class="header__block">
-        <div class="header__logo _show _light">
+        <div v-if="!isDark" class="header__logo _light">
           <RouterLink to="/"><img src="@/assets/images/logo.png" alt="logo" /></RouterLink>
         </div>
-        <div class="header__logo _dark">
-          <a href="" target="_self"><img src="@/assets/images/logo_dark.png" alt="logo" /></a>
+        <div v-else class="header__logo _dark">
+          <RouterLink to="/"><img src="@/assets/images/logo_dark.png" alt="logo" /></RouterLink>
         </div>
         <nav class="header__nav">
           <button class="header__btn-main-new _hover01" id="btnMainNew">
             <RouterLink to="/task/add">Создать новую задачу</RouterLink>
           </button>
-          <a class="header__user _hover02">Ivan Ivanov</a>
+          <a class="header__user _hover02">{{ userInfo.name }}</a>
           <div v-if="isDisplayed" class="header__pop-user-set pop-user-set" id="user-set-target">
-            <p class="pop-user-set__name">Ivan Ivanov</p>
-            <p class="pop-user-set__mail">ivan.ivanov@gmail.com</p>
+            <p class="pop-user-set__name">{{ userInfo.name }}</p>
+            <p class="pop-user-set__mail">{{ userInfo.login }}</p>
             <div class="pop-user-set__theme">
               <p>Темная тема</p>
-              <input type="checkbox" class="checkbox" name="checkbox" />
+              <input
+                @click="toggleDark()"
+                type="checkbox"
+                class="checkbox"
+                name="checkbox"
+                :checked="isDark"
+              />
             </div>
             <button type="button" class="_hover03">
               <RouterLink to="/exit">Выйти</RouterLink>
@@ -31,8 +37,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 const isDisplayed = ref(false)
+const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+
+const { isDark, toggleDark } = inject('dark')
 
 onMounted(() => {
   const username = document.querySelector('._hover02')
@@ -43,23 +52,26 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-._hover01:hover {
+.header ._hover01:hover {
   background-color: #33399b;
+  transition: 0.3s;
 }
 
 ._hover02:hover,
 .header__user:hover {
-  color: #33399b;
+  color: var(--header-name-hover);
 }
 ._hover02:hover::after,
 .header__user:hover::after {
-  border-left-color: #33399b;
-  border-bottom-color: #33399b;
+  border-left-color: var(--header-name-hover);
+  border-bottom-color: var(--header-name-hover);
 }
 
 ._hover03:hover {
-  background-color: #33399b;
+  background-color: #565eef;
   color: #ffffff;
+  border: none;
+  transition: 0.3s;
 }
 ._hover03:hover a {
   color: #ffffff;
@@ -73,7 +85,8 @@ onMounted(() => {
 .header {
   width: 100%;
   margin: 0 auto;
-  background-color: #ffffff;
+  background: var(--header-bg);
+  color: var(--text-color);
 }
 .header__block {
   height: 70px;
@@ -119,7 +132,7 @@ onMounted(() => {
   justify-content: center;
   font-size: 14px;
   line-height: 20px;
-  color: #565eef;
+  color: var(--header-link-color);
 }
 .header__user::after {
   content: '';
@@ -127,8 +140,8 @@ onMounted(() => {
   width: 6px;
   height: 6px;
   border-radius: 1px;
-  border-left: 1.9px solid #565eef;
-  border-bottom: 1.9px solid #565eef;
+  border-left: 1.9px solid var(--header-link-color);
+  border-bottom: 1.9px solid var(--header-link-color);
   transform: rotate(-45deg);
   margin: -6px 0 0 5px;
   padding: 0;
@@ -142,14 +155,15 @@ onMounted(() => {
   height: 205px;
   border-radius: 10px;
   border: 0.7px solid rgba(148, 166, 190, 0.4);
-  background: #fff;
+  background: var(--header-bg);
+
   box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);
   padding: 34px;
   text-align: center;
   z-index: 2;
 }
 .pop-user-set__name {
-  color: #000;
+  color: var(--text-color);
   font-size: 14px;
   font-weight: 500;
   line-height: 21px;
@@ -170,7 +184,7 @@ onMounted(() => {
   margin-bottom: 30px;
 }
 .pop-user-set__theme p {
-  color: #000;
+  color: var(--text-color);
   font-size: 14px;
   line-height: 21px;
   letter-spacing: -0.14px;
@@ -204,11 +218,11 @@ onMounted(() => {
   width: 72px;
   height: 30px;
   background: transparent;
-  color: #565eef;
+  color: var(--header-link-color);
   border-radius: 4px;
-  border: 1px solid #565eef;
+  border: var(--header-border);
 }
 .pop-user-set button a {
-  color: #565eef;
+  color: var(--header-link-color);
 }
 </style>

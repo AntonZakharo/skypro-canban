@@ -45,9 +45,10 @@ const isEmpty = computed(() => {
 .empty-cards__text {
   font-size: 35px;
   text-align: center;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   border-radius: 40px;
-  border: 0.7px solid black;
+  border: 0.7px solid var(--text-color);
+  color: var(--text-color);
   display: inline;
   padding: 5px 80px;
   margin-top: 60px;

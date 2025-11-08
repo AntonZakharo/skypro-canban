@@ -8,6 +8,10 @@
           </div>
           <form class="modal__form-login" id="formLogIn" action="#">
             <input
+              :class="{
+                _error: isError,
+                _correct: !isError,
+              }"
               class="modal__input"
               type="text"
               name="email"
@@ -16,6 +20,10 @@
               v-model="email"
             />
             <input
+              :class="{
+                _error: isError,
+                _correct: !isError,
+              }"
               class="modal__input"
               type="password"
               name="password"
@@ -51,21 +59,36 @@ const isError = ref(false)
 const { setUserInfo } = inject('auth')
 
 async function handleSignIn(e) {
-  e.preventDefault() // Предотвращаем перезагрузку страницы
+  e.preventDefault()
   try {
+    if (email.value == '' || password.value == '') {
+      errorMessage.value = 'Поля не заполнены'
+      isError.value = true
+      return
+    }
     const data = await signIn({ login: email.value, password: password.value })
+    console.log(data)
     setUserInfo(data)
-    router.push('/') // Перенаправляем на главную страницу
+    if (data != undefined) {
+      router.push('/')
+    }
   } catch (error) {
-    errorMessage.value = error
+    errorMessage.value = String(error).slice(7)
     isError.value = true
   }
 }
 </script>
 <style scoped>
 .error {
-  color: red;
+  color: #cc2626;
   margin-top: 10px;
+  text-align: center;
+}
+._error {
+  border: 0.7px solid #cc2626;
+}
+._correct {
+  border: 0.7px solid rgba(148, 166, 190, 0.4);
 }
 * {
   margin: 0;
@@ -109,7 +132,7 @@ a {
 .wrapper {
   width: 100%;
   height: 100%;
-  background-color: #eaeef6;
+  background-color: var(--bg-color);
 }
 
 .container-signin {
@@ -136,12 +159,12 @@ a {
 .modal__block {
   display: block;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   max-width: 368px;
   width: 100%;
   padding: 50px 60px;
   border-radius: 10px;
-  border: 0.7px solid #d4dbe5;
+  border: 0.7px solid var(--border-color);
   box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
 }
 .modal__ttl h2 {
@@ -151,6 +174,7 @@ a {
   line-height: 30px;
   letter-spacing: -0.6px;
   margin-bottom: 20px;
+  color: var(--text-color);
 }
 .modal__form-login {
   width: 100%;
@@ -166,9 +190,10 @@ a {
   width: 100%;
   min-width: 100%;
   border-radius: 8px;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
   outline: none;
   padding: 10px 8px;
+  background: transparent;
+  color: var(--input-text);
 }
 .modal__input::-moz-placeholder {
   font-family: 'Roboto', sans-serif;

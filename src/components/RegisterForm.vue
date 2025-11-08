@@ -8,7 +8,11 @@
           </div>
           <form class="modal__form-login" id="formLogUp" action="#">
             <input
-              class="modal__input first-name"
+              :class="{
+                _error: !isValidName,
+                _correct: isValidName,
+              }"
+              class="modal__input"
               type="text"
               name="first-name"
               id="first-name"
@@ -16,7 +20,11 @@
               v-model="login"
             />
             <input
-              class="modal__input login"
+              :class="{
+                _error: !isValidEmail,
+                _correct: isValidEmail,
+              }"
+              class="modal__input"
               type="text"
               name="login"
               id="loginReg"
@@ -24,7 +32,11 @@
               v-model="email"
             />
             <input
-              class="modal__input password-first"
+              :class="{
+                _error: !isValidPassword,
+                _correct: isValidPassword,
+              }"
+              class="modal__input"
               type="password"
               name="password"
               id="passwordFirst"
@@ -55,28 +67,43 @@ const password = ref('')
 const router = useRouter()
 const errorMessage = ref()
 const isError = ref(false)
-
+const isValidEmail = ref(true)
+const isValidName = ref(true)
+const isValidPassword = ref(true)
 const { setUserInfo } = inject('auth')
 
 async function handleSignUp(e) {
   e.preventDefault()
 
-  try {
+  if (login.value == '' || email.value == '' || password.value == '') {
+    errorMessage.value = 'Заполнены не все поля'
+    isError.value = true
+    isValidEmail.value = false
+    isValidName.value = false
+    isValidPassword.value = false
+  } else if (!email.value.includes('@') || email.value.length < 4 || !email.value.includes(' ')) {
+    errorMessage.value = 'Не правильно введена почта'
+    isError.value = true
+    isValidEmail.value = false
+    isValidName.value = true
+    isValidPassword.value = true
+  } else {
     const data = await signUp({ name: login.value, login: email.value, password: password.value })
     setUserInfo(data)
     router.push('/') //
-  } catch {
-    if (login.value == '' || email.value == '' || password.value == '') {
-      errorMessage.value = 'Заполнены не все поля'
-      isError.value = true
-    }
   }
 }
 </script>
 <style scoped>
 .error {
-  color: red;
+  color: #cc2626;
   margin-top: 10px;
+}
+._error {
+  border: 0.7px solid #cc2626;
+}
+._correct {
+  border: 0.7px solid rgba(148, 166, 190, 0.4);
 }
 * {
   margin: 0;
@@ -116,13 +143,11 @@ button,
 a {
   font-family: 'Roboto', sans-serif;
 }
-
 .wrapper {
   width: 100%;
   height: 100%;
-  background-color: #eaeef6;
+  background-color: var(--bg-color);
 }
-
 .container-signup {
   display: block;
   width: 100vw;
@@ -147,12 +172,12 @@ a {
 .modal__block {
   display: block;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   max-width: 368px;
   width: 100%;
   padding: 50px 60px;
   border-radius: 10px;
-  border: 0.7px solid #d4dbe5;
+  border: 0.7px solid var(--border-color);
   box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
 }
 .modal__ttl h2 {
@@ -162,6 +187,7 @@ a {
   line-height: 30px;
   letter-spacing: -0.6px;
   margin-bottom: 20px;
+  color: var(--text-color);
 }
 .modal__form-login {
   width: 100%;
@@ -177,9 +203,10 @@ a {
   width: 100%;
   min-width: 100%;
   border-radius: 8px;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
   outline: none;
   padding: 10px 8px;
+  background: transparent;
+  color: var(--input-text);
 }
 .modal__input::-moz-placeholder {
   font-family: 'Roboto', sans-serif;
