@@ -1,35 +1,4 @@
-# .
+# Доска-канбан
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+## Проект создан по курсу skypro для обучения основам Vue. Это веб-сайт, представляющий собой доску-канбан, в которой реализованы функции добавления, удаления, редактирования заданий, связь с API, авторизация и регистрация и смена на темную тему.
+## Использованные технологии: Vue 3.5, VueRouter, VueUse JavaScript, HTML, CSS, SCSS.
